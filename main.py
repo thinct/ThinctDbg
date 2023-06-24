@@ -42,6 +42,7 @@ if __name__ == "__main__":
         break
 
     regsJson = {"AddrFlow":[]}
+    DisasmFlow = ""
     while True:
         eip = dbg.get_register("eip")
         if eip >= FuncEndIP:
@@ -54,21 +55,27 @@ if __name__ == "__main__":
         esp = dbg.get_register("esp")
         esi = dbg.get_register("esi")
         edi = dbg.get_register("edi")
-        IPRegs = {"IP":"{:#X}".format(eip), "regs":{"eax":"{:#X}".format(eax)\
+        disasm = dbg.get_disasm_one_code(eip)
+        IPRegs = {"IP":"{:#X}".format(eip), "Disasm":"{}".format(disasm),"Regs":{"eax":"{:#X}".format(eax)\
         ,"ecx":"{:#X}".format(ecx),"edx":"{:#X}".format(edx),"ebx":"{:#X}".format(ebx),"ebp":"{:#X}".format(ebp)\
         ,"esp":"{:#X}".format(esp),"esi":"{:#X}".format(esi),"edi":"{:#X}".format(edi)}}
+        disasmFlowItem = "/*{:#X}*/    {}".format(eip, disasm)
         #print(IPRegs)
         regsJson["AddrFlow"] += [IPRegs]
+        DisasmFlow += disasmFlowItem + "\n"
         print("currentRIP: {:#X} eax: {:#X}".format(eip, eax))
         
         dbg.enable_commu_sync_time(True)
         dbg.set_debug("StepOver")
         dbg.enable_commu_sync_time(False)
+   
         
-    
     #print(regsJson)
     with open("AddrFlow.json", "w") as f:
-        json.dump(regsJson, f, ensure_ascii=False, indent=2)
+        json.dump(regsJson["AddrFlow"], f, ensure_ascii=False, indent=2)
+        
+    with open("AddrFlowEasy.asm", "w") as f:
+        f.write(DisasmFlow)
      
     dbg.close()
     print("Finished!")
