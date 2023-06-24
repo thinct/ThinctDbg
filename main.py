@@ -1,6 +1,7 @@
 ﻿from LyScript32 import MyDebug
 import sys
 import time
+import json
 
     
 if __name__ == "__main__":
@@ -25,26 +26,49 @@ if __name__ == "__main__":
     dbg.set_debug("run")
    
     while True:
-        try:
-            eip = dbg.get_register("eip")
-            print(eip,FuncStartIP)
-            print("eip: {:#X}".format(eip))
-            print("FuncStartIP: {:#X}".format(FuncStartIP))
-            if eip != FuncStartIP:
-                dbg.set_debug("run")
-                input("press any key to continue...")
-                continue
-            dbg.delete_breakpoint(FuncStartIP)
-            break
-        except:
+        eip = dbg.get_register("eip")
+        # print(eip,FuncStartIP)
+        # print("eip: {:#X}".format(eip))
+        # print("FuncStartIP: {:#X}".format(FuncStartIP))
+        if eip != FuncStartIP:
+            dbg.set_debug("run")
+            in_key = raw_input("press any key to continue...")
+            print(in_key)
+            if in_key == "q":
+                print("quit!")
+                exit()
             continue
+        dbg.delete_breakpoint(FuncStartIP)
+        break
 
+    regsJson = {"AddrFlow":[]}
     while True:
         eip = dbg.get_register("eip")
         if eip >= FuncEndIP:
             break
-        print("currentRIP: {:#X}".format(eip))
+        eax = dbg.get_register("eax")
+        ecx = dbg.get_register("ecx")
+        edx = dbg.get_register("edx")
+        ebx = dbg.get_register("ebx")
+        ebp = dbg.get_register("ebp")
+        esp = dbg.get_register("esp")
+        esi = dbg.get_register("esi")
+        edi = dbg.get_register("edi")
+        IPRegs = {"IP":"{:#X}".format(eip), "regs":{"eax":"{:#X}".format(eax)\
+        ,"ecx":"{:#X}".format(ecx),"edx":"{:#X}".format(edx),"ebx":"{:#X}".format(ebx),"ebp":"{:#X}".format(ebp)\
+        ,"esp":"{:#X}".format(esp),"esi":"{:#X}".format(esi),"edi":"{:#X}".format(edi)}}
+        #print(IPRegs)
+        regsJson["AddrFlow"] += [IPRegs]
+        print("currentRIP: {:#X} eax: {:#X}".format(eip, eax))
+        
+        dbg.enable_commu_sync_time(True)
         dbg.set_debug("StepOver")
+        dbg.enable_commu_sync_time(False)
+        
     
+    #print(regsJson)
+    with open("AddrFlow.json", "w") as f:
+        json.dump(regsJson, f, ensure_ascii=False, indent=2)
+     
     dbg.close()
     print("Finished!")
