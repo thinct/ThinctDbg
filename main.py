@@ -45,7 +45,7 @@ if __name__ == "__main__":
     DisasmFlow = ""
     while True:
         eip = dbg.get_register("eip")
-        if eip >= FuncEndIP:
+        if eip > FuncEndIP:
             break
         eax = dbg.get_register("eax")
         ecx = dbg.get_register("ecx")
@@ -59,7 +59,12 @@ if __name__ == "__main__":
         IPRegs = {"IP":"{:#X}".format(eip), "Disasm":"{}".format(disasm),"Regs":{"eax":"{:#X}".format(eax)\
         ,"ecx":"{:#X}".format(ecx),"edx":"{:#X}".format(edx),"ebx":"{:#X}".format(ebx),"ebp":"{:#X}".format(ebp)\
         ,"esp":"{:#X}".format(esp),"esi":"{:#X}".format(esi),"edi":"{:#X}".format(edi)}}
+            
         disasmFlowItem = "/*{:#X}*/    {}".format(eip, disasm)
+        if disasm[0] == 'j':
+            disasmFlowItem = ";" + disasmFlowItem
+        elif disasm[0:4] == 'call' and disasm[5:7] == '0x':
+            disasmFlowItem = 'mov eax, ' + disasm[5:15] + '\n' + "/*{:#X}*/    call eax".format(eip)
         #print(IPRegs)
         regsJson["AddrFlow"] += [IPRegs]
         DisasmFlow += disasmFlowItem + "\n"
