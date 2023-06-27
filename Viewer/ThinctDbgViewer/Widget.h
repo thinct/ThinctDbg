@@ -7,6 +7,7 @@
 class QPlainText;
 class QTableWidget;
 class QFileSystemWatcher;
+class QTableWidgetItem;
 
 namespace Ui {
 class Widget;
@@ -45,6 +46,7 @@ private:
     QString             m_strFilePathWithJmp;
     QString             m_strFilePathFlowDisasmCode;
     QString             m_strFilePathRegsInformation;
+    QTableWidgetItem*   m_pOldTableWidgetItemRedFlag;
 };
 
 #endif // WIDGET_H

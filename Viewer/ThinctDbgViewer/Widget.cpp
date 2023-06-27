@@ -42,7 +42,8 @@ void AdjustTableColumnWidth(QTableWidget& tableWidget, int column)
 
 Widget::Widget(const QString& path, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
+    ui(new Ui::Widget),
+    m_pOldTableWidgetItemRedFlag(nullptr)
 {
     ui->setupUi(this);
 
@@ -81,11 +82,41 @@ Widget::~Widget()
 
 void Widget::on_tableWidget_WithJmp_clicked(const QModelIndex &index)
 {
-    QString strItemText = ui->tableWidget_WithJmp->item(index.row(), index.column())->text();
+    if (m_pOldTableWidgetItemRedFlag)
+    {
+        m_pOldTableWidgetItemRedFlag->setTextColor(Qt::black);
+    }
+    QString strItemText = ui->tableWidget_WithJmp->item(index.row(), 0)->text();
     if (strItemText.isEmpty())
     {
         return;
     }
+    if (strItemText.contains("GOTO BACK"))
+    {
+        QString strAfterAddrID = strItemText.section(" ", 1);
+        qDebug() << "strAfterAddrID string:" << strAfterAddrID;
+        int startIndex = strAfterAddrID.indexOf("0x");
+        if (startIndex != -1)
+        {
+            int endIndex = strAfterAddrID.indexOf(';', startIndex);
+            if (endIndex != -1)
+            {
+                QString strBackAddr = strAfterAddrID.mid(startIndex, endIndex - startIndex);
+                qDebug() << "Extracted string:" << strBackAddr;
+                QTableWidget* pTableWidget = ui->tableWidget_WithJmp;
+                for (int i=0; i<pTableWidget->rowCount(); i++)
+                {
+                    if (pTableWidget->item(i, 0)->text().contains(strBackAddr))
+                    {
+                        m_pOldTableWidgetItemRedFlag = pTableWidget->item(i, 0);
+                        pTableWidget->item(i, 0)->setTextColor(Qt::red);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     QString strAddrID = strItemText.section(" ", 0, 0);
 
     QListWidget* pListWidget = ui->listWidget_Flow;
