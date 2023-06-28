@@ -1,38 +1,41 @@
-﻿from LyScript32 import MyDebug
 import sys
 import time
 import json
+from LyScript32 import MyDebug
 
     
 if __name__ == "__main__":
     dbg = MyDebug()
     connect_flag = dbg.connect()
-    print("连接状态: {}".format(connect_flag))
+    print("connect status: {}".format(connect_flag))
 
-    print '参数个数为:', len(sys.argv), '个参数。'
-    print '参数列表:', str(sys.argv)
+    print('args count:', len(sys.argv))
+    print('argv list:', str(sys.argv))
     
     if len(sys.argv)<2:
-        print("请输入函数的地址范围")
+        print("please input disasm addr range")
         exit()
     
     FuncStartIP = int(sys.argv[1], 16)
     FuncEndIP = int(sys.argv[2], 16)
+    PauseIP = int(sys.argv[3], 16)
     if FuncStartIP > FuncEndIP:
-        print("第一个参数是起始地址，第二个参数是终止地址")
+        print("the first is start addr and the second is end addr")
         exit()
     
     dbg.set_breakpoint(FuncStartIP)
     dbg.set_debug("run")
    
     while True:
+        dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
-        # print(eip,FuncStartIP)
+        print("0x{:0>8X}  0x{:0>8X}".format(eip,FuncStartIP))
         # print("eip: 0x{:0>8X}".format(eip))
         # print("FuncStartIP: 0x{:0>8X}".format(FuncStartIP))
         if eip != FuncStartIP:
+            dbg.enable_commu_sync_time(True)
             dbg.set_debug("run")
-            in_key = raw_input("press any key to continue...")
+            in_key = input("press any key to continue...")
             print(in_key)
             if in_key == "q":
                 print("quit!")
@@ -40,7 +43,7 @@ if __name__ == "__main__":
             continue
         dbg.delete_breakpoint(FuncStartIP)
         break
-
+        
     regsJson = {"AddrFlow":[]}
     DisasmFlow = ""
     DisasmFlowDirc = {}
@@ -51,6 +54,9 @@ if __name__ == "__main__":
         eip = dbg.get_register("eip")
         if eip > FuncEndIP:
             break
+        
+        if PauseIP == eip:
+            in_key = input("Pause...")
         
         if eip in EIPSet:
             dbg.enable_commu_sync_time(True)
@@ -72,6 +78,7 @@ if __name__ == "__main__":
         ,"esp":"0x{:0>8X}".format(esp),"esi":"0x{:0>8X}".format(esi),"edi":"0x{:0>8X}".format(edi)}}
             
         disasmFlowItem = "/*0x{:0>8X}*/    {}".format(eip, disasm)
+        print(disasmFlowItem)
         if disasm[0] == 'j':
             disasmFlowItem = ";" + disasmFlowItem
             if len(disasm) == 14:
