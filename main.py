@@ -1,31 +1,40 @@
 import sys
 import time
 import json
+import gflags
 from LyScript32 import MyDebug
+
+# 定义标志
+gflags.DEFINE_integer('S',     0x0, 'start point')
+gflags.DEFINE_integer('E',     0x0, 'end point')
+gflags.DEFINE_integer('Pause', 0x0, 'pause')
+
 
     
 if __name__ == "__main__":
-    dbg = MyDebug()
-    connect_flag = dbg.connect()
-    print("connect status: {}".format(connect_flag))
-
     print('args count:', len(sys.argv))
     print('argv list:', str(sys.argv))
-    
     if len(sys.argv)<2:
         print("please input disasm addr range")
         exit()
-    
-    FuncStartIP = int(sys.argv[1], 16)
-    FuncEndIP = int(sys.argv[2], 16)
-    PauseIP = int(sys.argv[3], 16)
-    if FuncStartIP > FuncEndIP:
+        
+    # 解析命令行参数
+    gflags.FLAGS(sys.argv)
+    print(gflags.FLAGS.S)
+    FuncStartIP = gflags.FLAGS.S
+    FuncEndIP   = gflags.FLAGS.E
+    PauseIP     = gflags.FLAGS.Pause
+    if FuncStartIP >= FuncEndIP:
         print("the first is start addr and the second is end addr")
         exit()
-    
+        
+        
+    dbg          = MyDebug()
+    connect_flag = dbg.connect()
+    print("MyDebug connect status: {}".format(connect_flag))
+
     dbg.set_breakpoint(FuncStartIP)
-    dbg.set_debug("run")
-   
+    dbg.set_debug("run")   
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
@@ -35,20 +44,20 @@ if __name__ == "__main__":
         if eip != FuncStartIP:
             dbg.enable_commu_sync_time(True)
             dbg.set_debug("run")
-            in_key = input("press any key to continue...")
+            in_key = input("The starting point has not been reached, so click any key to continue...")
             print(in_key)
-            if in_key == "q":
+            if in_key == "q" || in_key == "quit":
                 print("quit!")
                 exit()
             continue
         dbg.delete_breakpoint(FuncStartIP)
         break
         
-    regsJson = {"AddrFlow":[]}
-    DisasmFlow = ""
+    regsJson       = {"AddrFlow":[]}
+    DisasmFlow     = ""
     DisasmFlowDirc = {}
-    EIPSet = []
-    EIPGoToSet = []
+    EIPSet         = []
+    EIPGoToSet     = []
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
@@ -56,7 +65,7 @@ if __name__ == "__main__":
             break
         
         if PauseIP == eip:
-            in_key = input("Pause...")
+            in_key = input("This is a pause point where you can make changes to the x64dbg...")
         
         if eip in EIPSet:
             dbg.enable_commu_sync_time(True)
@@ -79,7 +88,7 @@ if __name__ == "__main__":
             
         disasmFlowItem = "/*0x{:0>8X}*/    {}".format(eip, disasm)
         print(disasmFlowItem)
-        if disasm[0] == 'j':
+        if disasm[0] == 'j': # jmp
             disasmFlowItem = ";" + disasmFlowItem
             if len(disasm) == 14:
                 if int(str(disasm[4:14]), 16) < eip:
@@ -92,8 +101,8 @@ if __name__ == "__main__":
             disasmFlowItem = 'mov eax, ' + disasm[5:15] + '\n' + "/*0x{:0>8X}*/    call eax".format(eip)
         #print(IPRegs)
         regsJson["AddrFlow"] += [IPRegs]
-        DisasmFlowDirc[eip] = disasmFlowItem
-        DisasmFlow += disasmFlowItem + "\n"
+        DisasmFlowDirc[eip]  = disasmFlowItem
+        DisasmFlow           += disasmFlowItem + "\n"
         print("currentRIP: 0x{:0>8X} eax: 0x{:0>8X}".format(eip, eax))
         
         dbg.enable_commu_sync_time(True)
