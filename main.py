@@ -5,10 +5,10 @@ import gflags
 from LyScript32 import MyDebug
 
 # 定义标志
-gflags.DEFINE_integer('S',     0x0, 'start point')
-gflags.DEFINE_integer('E',     0x0, 'end point')
-gflags.DEFINE_integer('Pause', 0x0, 'pause')
-
+gflags.DEFINE_integer('S',           0x0, 'start point')
+gflags.DEFINE_integer('E',           0x0, 'end point')
+gflags.DEFINE_integer('Pause',       0x0, 'pause')
+gflags.DEFINE_string('DisasmPart',   "",  'jmp')
 
     
 if __name__ == "__main__":
@@ -24,6 +24,7 @@ if __name__ == "__main__":
     FuncStartIP = gflags.FLAGS.S
     FuncEndIP   = gflags.FLAGS.E
     PauseIP     = gflags.FLAGS.Pause
+    DisasmPart  = gflags.FLAGS.DisasmPart
     if FuncStartIP >= FuncEndIP:
         print("the first is start addr and the second is end addr")
         exit()
@@ -46,7 +47,7 @@ if __name__ == "__main__":
             dbg.set_debug("run")
             in_key = input("The starting point has not been reached, so click any key to continue...")
             print(in_key)
-            if in_key == "q" || in_key == "quit":
+            if in_key == "q" or in_key == "quit":
                 print("quit!")
                 exit()
             continue
@@ -64,7 +65,9 @@ if __name__ == "__main__":
         if eip > FuncEndIP:
             break
         
-        if PauseIP == eip:
+        disasm  = dbg.get_disasm_one_code(eip)
+        if PauseIP == eip or (DisasmPart != "" and str(DisasmPart) in disasm):
+            print("pause condition:", disasm, DisasmPart)
             in_key = input("This is a pause point where you can make changes to the x64dbg...")
         
         if eip in EIPSet:
@@ -73,15 +76,14 @@ if __name__ == "__main__":
             continue
         EIPSet += [eip]
          
-        eax = dbg.get_register("eax")
-        ecx = dbg.get_register("ecx")
-        edx = dbg.get_register("edx")
-        ebx = dbg.get_register("ebx")
-        ebp = dbg.get_register("ebp")
-        esp = dbg.get_register("esp")
-        esi = dbg.get_register("esi")
-        edi = dbg.get_register("edi")
-        disasm = dbg.get_disasm_one_code(eip)
+        eax    = dbg.get_register("eax")
+        ecx    = dbg.get_register("ecx")
+        edx    = dbg.get_register("edx")
+        ebx    = dbg.get_register("ebx")
+        ebp    = dbg.get_register("ebp")
+        esp    = dbg.get_register("esp")
+        esi    = dbg.get_register("esi")
+        edi    = dbg.get_register("edi")
         IPRegs = {"IP":"0x{:0>8X}".format(eip), "Disasm":"{}".format(disasm),"Regs":{"eax":"0x{:0>8X}".format(eax)\
         ,"ecx":"0x{:0>8X}".format(ecx),"edx":"0x{:0>8X}".format(edx),"ebx":"0x{:0>8X}".format(ebx),"ebp":"0x{:0>8X}".format(ebp)\
         ,"esp":"0x{:0>8X}".format(esp),"esi":"0x{:0>8X}".format(esi),"edi":"0x{:0>8X}".format(edi)}}
