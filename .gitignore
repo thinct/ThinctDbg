@@ -48,3 +48,5 @@ docs/_build/
 *.Release
 
 **.o
+
+*.pro.user
