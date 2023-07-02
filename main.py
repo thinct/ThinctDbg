@@ -5,9 +5,10 @@ import gflags
 from LyScript32 import MyDebug
 
 # 定义标志
-gflags.DEFINE_integer('S',           0x0, 'start point')
-gflags.DEFINE_integer('E',           0x0, 'end point')
-gflags.DEFINE_integer('Pause',       0x0, 'pause')
+gflags.DEFINE_integer('S',             0x0, 'start point')
+gflags.DEFINE_integer('E',             0x0, 'end point')
+gflags.DEFINE_multi_int('Pause',       [], 'pause list')
+gflags.DEFINE_multi_int('PauseOnce',   [], 'pause once list')
 gflags.DEFINE_string('DisasmPart',   "",  'jmp')
 
     
@@ -21,10 +22,11 @@ if __name__ == "__main__":
     # 解析命令行参数
     gflags.FLAGS(sys.argv)
     print(gflags.FLAGS.S)
-    FuncStartIP = gflags.FLAGS.S
-    FuncEndIP   = gflags.FLAGS.E
-    PauseIP     = gflags.FLAGS.Pause
-    DisasmPart  = gflags.FLAGS.DisasmPart
+    FuncStartIP  = gflags.FLAGS.S
+    FuncEndIP    = gflags.FLAGS.E
+    PauseIPs     = gflags.FLAGS.Pause
+    PauseIPOnce  = gflags.FLAGS.PauseOnce
+    DisasmPart   = gflags.FLAGS.DisasmPart
     if FuncStartIP >= FuncEndIP:
         print("the first is start addr and the second is end addr")
         exit()
@@ -66,9 +68,14 @@ if __name__ == "__main__":
             break
         
         disasm  = dbg.get_disasm_one_code(eip)
-        if PauseIP == eip or (DisasmPart != "" and str(DisasmPart) in disasm):
+        if eip in PauseIPs or (DisasmPart != "" and str(DisasmPart) in disasm):
             print("pause condition:", disasm, DisasmPart)
             in_key = input("This is a pause point where you can make changes to the x64dbg...")
+        elif eip in PauseIPOnce:
+            PauseIPOnce.remove(eip)
+            print(PauseIPOnce)
+            in_key = input("This is a pause point where you can make changes to the x64dbg...")
+            
         
         if eip in EIPSet:
             dbg.enable_commu_sync_time(True)
