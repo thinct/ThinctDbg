@@ -1,4 +1,5 @@
 import sys
+import re
 import time
 import json
 import gflags
@@ -125,11 +126,32 @@ if __name__ == "__main__":
     with open("AddrFlowEasy.asm", "w") as f:
         f.write(DisasmFlow)
         
+    LsDisasmFlowKeys = list(DisasmFlowDirc.items())
+    LsDisasmFlowKeys.sort(key=lambda x:x[0],reverse=False)
+    AddrJmpList = []
+    disasmLineList = []
+    for item in LsDisasmFlowKeys:
+        disasmLine = item[1]
+        if disasmLine[0] == ';':
+            disasmLine = disasmLine[1:]
+            pattern = r"\bj[a-z]+\b\s+(0x\w+)"
+            match = re.search(pattern, disasmLine)
+            if match:
+                jmpAddr = match.group(1)
+                AddrJmpList += [jmpAddr]
+        disasmLineList += [disasmLine]
+        # print(disasmLine)  
+    print(AddrJmpList)  
+
+    disasmWithLabel = []
+    for  item in disasmLineList:
+        if item[2:12] in AddrJmpList:
+            item = "LABEL_{}:\n".format(item[2:12])+item
+        disasmWithLabel += [item]
+        
     with open("AddrFlowEasyWithJmp.asm", "w") as f:
-        LsDisasmFlowKeys = list(DisasmFlowDirc.items())
-        LsDisasmFlowKeys.sort(key=lambda x:x[0],reverse=False)
-        for item in LsDisasmFlowKeys:
-            f.write(item[1]+'\n')
+        for item in disasmWithLabel:
+            f.write(item+'\n')
      
     dbg.close()
     print("Finished!")
