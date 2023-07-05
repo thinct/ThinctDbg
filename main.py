@@ -139,7 +139,7 @@ if __name__ == "__main__":
             if match:
                 jmpAddr     = match.group(1)
                 AddrJmpList += [jmpAddr]
-                disasmLine = disasmLine.replace(jmpAddr, "LABEL_"+jmpAddr)
+                disasmLine  = disasmLine.replace(jmpAddr, "LABEL_"+jmpAddr)
         disasmLineList += [disasmLine]
     print(AddrJmpList)  
 
