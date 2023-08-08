@@ -1,15 +1,19 @@
 ﻿import sys
+import re
 from LyScript32 import MyDebug
 import gflags
 
 
-# \BreakpointTool.py --ModuleName "MFCApplication1.exe" --CodeLenExinclue 10 --CodeLenExinclue 80
+# \BreakpointTool.py --ModuleName "MFCApplication1.exe"
+# BreakpointTool.py --ModuleName "SearchDemo.exe" --E 0x403000 --RegExp "push ebp[\s\S]*?push edi[\s\S].*?push esi[\s\S]"
 
 gflags.DEFINE_string('ModuleName',                  "", 'module name')
 gflags.DEFINE_integer('S',                         0x0, 'start point')
 gflags.DEFINE_integer('E',                         0x0, 'end point')
-gflags.DEFINE_multi_int('CodeLenExinclue',     [10,80], 'CodeLenExinclue')
+gflags.DEFINE_integer('Step',                      0x0, 'break point step')
+gflags.DEFINE_string('RegExp',                      "", 'regular expression')
 
+    
 # 得到机器码
 def GetHexCode(dbg,address):
     ref_bytes = []
@@ -20,7 +24,7 @@ def GetHexCode(dbg,address):
     for index in range(0,asm_len):
         ref_bytes.append(dbg.read_memory_byte(address))
         address = address + 1
-    return ref_bytes
+    return ref_bytes    
     
 if __name__ == "__main__":
     print('args count:', len(sys.argv))
@@ -29,13 +33,15 @@ if __name__ == "__main__":
         print("please input disasm addr range")
         exit()
     
+    
     # 解析命令行参数
     gflags.FLAGS(sys.argv)
     print(gflags.FLAGS.S)
     ModuleName      = gflags.FLAGS.ModuleName
     FuncStartIP     = gflags.FLAGS.S
     FuncEndIP       = gflags.FLAGS.E
-    CodeLenExinclue = gflags.FLAGS.CodeLenExinclue
+    Step            = gflags.FLAGS.Step
+    RegExp          = gflags.FLAGS.RegExp
         
     dbg = MyDebug()
     connect_flag = dbg.connect()
@@ -46,41 +52,60 @@ if __name__ == "__main__":
     entry = dbg.get_local_module_entry()
     print("模块入口: {:#X}".format(dbg.get_local_module_entry()))
     
-    bpOld = None
     currentRIP = base + 0x1000
     if FuncStartIP > 0x1000:
         currentRIP = FuncStartIP
+    if FuncEndIP <= 0:
+        FuncEndIP = entry
         
+        
+    DisasmFlows = ''    
     while True:
-        if currentRIP+1 > entry:
-            break
         dbg.enable_commu_sync_time(False)
-        ref = GetHexCode(dbg,currentRIP)
-        if len(ref) == 1 and ref[0] == 0xcc:
+        if currentRIP+1 > FuncEndIP:
+            break
+        ref = GetHexCode(dbg, currentRIP)
         
-            # 指令長度在一定控制在一定範圍内
-            if bpOld is not None:
-                print("will breakpoint: len:{:#X} IP:{:#X}".format(currentRIP-bpOld, bpOld))
-                if (currentRIP-bpOld<CodeLenExinclue[0] or currentRIP-bpOld>CodeLenExinclue[1]):
-                    print("delete breakpoint: len:{:#X} IP:{:#X}".format(currentRIP-bpOld, bpOld))
-                    dbg.enable_commu_sync_time(True)
-                    dbg.delete_breakpoint(bpOld)
-                bpOld = None
+        disasm  = dbg.get_disasm_one_code(currentRIP)
+        DisasmFlows = DisasmFlows + "0x{:0>8X}    {}\n".format(currentRIP, disasm)
         
-            refNormal = GetHexCode(dbg,currentRIP+1)
-            #if len(ref)>0 and  ref[0] != 0xcc and ref[0] == 0x6A:
-            if len(refNormal)>0 and  refNormal[0] != 0xcc:
-                print("currentRIP: {:#X}".format(currentRIP+1))
-                dbg.enable_commu_sync_time(True)
-                dbg.set_breakpoint(currentRIP+1)
-                bpOld = currentRIP+1
-                currentRIP = currentRIP + len(refNormal)
-                continue
         if len(ref) == 0:
-            print("----currentRIP: {:#X}".format(currentRIP))
+            #print("----currentRIP: {:#X}".format(currentRIP))
             currentRIP = currentRIP + 1
             continue
         currentRIP = currentRIP + len(ref)
+        
+    print("DisasmFlows:\n{}".format(DisasmFlows))
+    
+    #提取所有指令地址，然后按照步长设置断点
+    if Step>0:
+        dbg.enable_commu_sync_time(True)
+        # 使用splitlines()方法将文本拆分成行，并遍历每一行提取地址部分
+        addresses = [line.split()[0] for line in DisasmFlows.splitlines() if line.strip()]
+        # 打印提取的地址部分
+        addrIndex = 0
+        for address in addresses:
+            if addrIndex % Step != 0:
+                addrIndex+=1
+                continue
+            print("BP {}".format(address))
+            dbg.set_breakpoint(int(address, 16))
+            addrIndex+=1
+    
+    if RegExp is not '':
+        dbg.enable_commu_sync_time(True)
+        #pattern = r"(0x[0-9A-F]{8})\s*?push ebp[\s\S]*?push edi[\s\S]*?push esi"
+        #pattern = r"(0x[0-9A-F]{8})\s*?" + r"add[\s\S]*?add[\s\S]*?"
+        pattern = r"(0x[0-9A-F]{8})\s*?" + RegExp
+        print(pattern)
+        matches = re.findall(pattern, DisasmFlows, re.MULTILINE)
+        # Print the matches and their respective addresses
+        for instruction in matches:
+            print(f"Instruction:\n {instruction}")
+            dbg.set_breakpoint(int(instruction, 16))
+    
+    with open("DisasmFlows.asm", "w") as f:
+        f.write(DisasmFlows)
     
     dbg.close()
     print("Finished!")
