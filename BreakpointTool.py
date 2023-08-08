@@ -6,6 +6,7 @@ import gflags
 
 # \BreakpointTool.py --ModuleName "MFCApplication1.exe"
 # BreakpointTool.py --ModuleName "SearchDemo.exe" --E 0x403000 --RegExp "push ebp[\s\S]*?push edi[\s\S].*?push esi[\s\S]"
+# \BreakpointTool.py --ModuleName "SearchDemo.exe" --E 0x403000 --Step 100
 
 gflags.DEFINE_string('ModuleName',                  "", 'module name')
 gflags.DEFINE_integer('S',                         0x0, 'start point')
