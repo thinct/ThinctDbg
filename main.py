@@ -10,7 +10,9 @@ gflags.DEFINE_integer('S',             0x0, 'start point')
 gflags.DEFINE_integer('E',             0x0, 'end point')
 gflags.DEFINE_multi_int('Pause',       [], 'pause list')
 gflags.DEFINE_multi_int('PauseOnce',   [], 'pause once list')
-gflags.DEFINE_string('DisasmPart',   "",  'jmp')
+gflags.DEFINE_multi_int('StepIn',      [], 'Step into')
+gflags.DEFINE_multi_int('MustAddr',    [], 'Must step to the Addr')
+gflags.DEFINE_string('DisasmPart',     "",  'jmp')
 
     
 if __name__ == "__main__":
@@ -27,6 +29,8 @@ if __name__ == "__main__":
     FuncEndIP    = gflags.FLAGS.E
     PauseIPs     = gflags.FLAGS.Pause
     PauseIPOnce  = gflags.FLAGS.PauseOnce
+    StepIns      = gflags.FLAGS.StepIn
+    MustAddrs    = gflags.FLAGS.MustAddr
     DisasmPart   = gflags.FLAGS.DisasmPart
     if FuncStartIP >= FuncEndIP:
         print("the first is start addr and the second is end addr")
@@ -56,6 +60,9 @@ if __name__ == "__main__":
             continue
         dbg.delete_breakpoint(FuncStartIP)
         break
+
+    if len(StepIns)>0 and len(MustAddrs) == 0:
+        MustAddrs = [FuncEndIP]
         
     regsJson       = {"AddrFlow":[]}
     DisasmFlow     = ""
@@ -65,8 +72,12 @@ if __name__ == "__main__":
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
-        if eip > FuncEndIP:
-            break
+        if len(MustAddrs) > 0:
+            if eip in MustAddrs:
+                MustAddrs.remove(eip)
+        else:
+            if eip > FuncEndIP:
+                break
         
         disasm  = dbg.get_disasm_one_code(eip)
         if eip in PauseIPs or (DisasmPart != "" and str(DisasmPart) in disasm):
@@ -116,7 +127,12 @@ if __name__ == "__main__":
         print("currentRIP: 0x{:0>8X} eax: 0x{:0>8X}".format(eip, eax))
         
         dbg.enable_commu_sync_time(True)
-        dbg.set_debug("StepOver")
+        if eip in StepIns:
+            print("Step Into...")
+            dbg.set_debug("StepIn")
+        else:
+            print("Step Over...")
+            dbg.set_debug("StepOver")
    
         
     #print(regsJson)
