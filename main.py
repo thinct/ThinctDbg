@@ -131,7 +131,6 @@ if __name__ == "__main__":
             print("Step Into...")
             dbg.set_debug("StepIn")
         else:
-            print("Step Over...")
             dbg.set_debug("StepOver")
    
         
