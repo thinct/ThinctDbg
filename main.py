@@ -73,8 +73,8 @@ if __name__ == "__main__":
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
         if len(MustAddrs) > 0:
-            if eip in MustAddrs:
-                MustAddrs.remove(eip)
+            if eip == MustAddrs[0]:
+                MustAddrs.pop(0)
         else:
             if eip > FuncEndIP:
                 break
