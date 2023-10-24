@@ -5,6 +5,8 @@ import json
 import gflags
 from LyScript32 import MyDebug
 
+# .\main.py --S 0x00402029 --E 0x0040206A --StepIn 0x00402064 --StepIn 0x68B09B26 --MustAddr 0x68B09B0A --PauseOnce 0x68B09B0A
+
 # 定义标志
 gflags.DEFINE_integer('S',             0x0, 'start point')
 gflags.DEFINE_integer('E',             0x0, 'end point')
@@ -12,7 +14,7 @@ gflags.DEFINE_multi_int('Pause',       [], 'pause list')
 gflags.DEFINE_multi_int('PauseOnce',   [], 'pause once list')
 gflags.DEFINE_multi_int('StepIn',      [], 'Step into')
 gflags.DEFINE_multi_int('MustAddr',    [], 'Must step to the Addr')
-gflags.DEFINE_string('DisasmPart',     "",  'jmp')
+gflags.DEFINE_string('DisasmPart',     "", 'jmp')
 
     
 if __name__ == "__main__":
