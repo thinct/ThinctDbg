@@ -126,7 +126,8 @@ if __name__ == "__main__":
                     disasmFlowItem += ";GOTO BACK"
                 
         elif disasm[0:4] == 'call' and disasm[5:7] == '0x':
-            disasmFlowItem = 'mov eax, ' + disasm[5:15] + '\n' + "/*0x{:0>8X}*/    call eax".format(eip)
+            disasmFlowItem = 'push eax\nmov eax, ' + disasm[5:15] + '\n' \
+            + "/*0x{:0>8X}*/    call eax\npop eax".format(eip)
         #print(IPRegs)
         regsJson["AddrFlow"] += [IPRegs]
         DisasmFlowDirc[eip]  = disasmFlowItem
