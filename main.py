@@ -71,15 +71,20 @@ if __name__ == "__main__":
     DisasmFlowDirc = {}
     EIPSet         = []
     EIPGoToSet     = []
+    LastestIPFlag  = False
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
         if len(MustAddrs) > 0:
             if eip == MustAddrs[0]:
                 MustAddrs.pop(0)
+                if eip == FuncEndIP:
+                    print("LastestIPFlag  IP  0x{:0>8X}".format(eip))
+                    LastestIPFlag = True
         else:
-            if eip > FuncEndIP:
-                break
+            if eip == FuncEndIP:
+                print("LastestIPFlag  IP  0x{:0>8X}".format(eip))
+                LastestIPFlag = True
         
         disasm  = dbg.get_disasm_one_code(eip)
         if eip in PauseIPs or (DisasmPart != "" and str(DisasmPart) in disasm):
@@ -134,6 +139,9 @@ if __name__ == "__main__":
             dbg.set_debug("StepIn")
         else:
             dbg.set_debug("StepOver")
+        
+        if LastestIPFlag is True:
+            break
    
         
     #print(regsJson)
