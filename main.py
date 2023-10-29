@@ -3,19 +3,27 @@ import re
 import time
 import json
 import gflags
+from enum import Enum
 from LyScript32 import MyDebug
 
 # .\main.py --S 0x00402029 --E 0x0040206A --StepIn 0x00402064 --StepIn 0x68B09B26 --MustAddr 0x68B09B0A --PauseOnce 0x68B09B0A
+# .\main.py --S 0x01071AD0 --E 0x01071BC1 --StartInModules 0x01060000 --EndInModules 0x01076FF2
 
 # 定义标志
-gflags.DEFINE_integer('S',             0x0, 'start point')
-gflags.DEFINE_integer('E',             0x0, 'end point')
-gflags.DEFINE_multi_int('Pause',       [], 'pause list')
-gflags.DEFINE_multi_int('PauseOnce',   [], 'pause once list')
-gflags.DEFINE_multi_int('StepIn',      [], 'Step into')
-gflags.DEFINE_multi_int('MustAddr',    [], 'Must step to the Addr')
-gflags.DEFINE_string('DisasmPart',     "", 'jmp')
+gflags.DEFINE_integer('S',                0x0, 'start point')
+gflags.DEFINE_integer('E',                0x0, 'end point')
+gflags.DEFINE_multi_int('Pause',          [], 'pause list')
+gflags.DEFINE_multi_int('PauseOnce',      [], 'pause once list')
+gflags.DEFINE_multi_int('StepIn',         [], 'Step into')
+gflags.DEFINE_multi_int('MustAddr',       [], 'Must step to the Addr')
+gflags.DEFINE_string('DisasmPart',        "", 'jmp')
+gflags.DEFINE_multi_int('StartInModules', [], 'start in module')
+gflags.DEFINE_multi_int('EndInModules',   [], 'end in module')
 
+class StepStatus(Enum):
+    StepOver = 0
+    StepIn   = 1
+    StepOut  = 2
     
 if __name__ == "__main__":
     print('args count:', len(sys.argv))
@@ -27,17 +35,23 @@ if __name__ == "__main__":
     # 解析命令行参数
     gflags.FLAGS(sys.argv)
     print(gflags.FLAGS.S)
-    FuncStartIP  = gflags.FLAGS.S
-    FuncEndIP    = gflags.FLAGS.E
-    PauseIPs     = gflags.FLAGS.Pause
-    PauseIPOnce  = gflags.FLAGS.PauseOnce
-    StepIns      = gflags.FLAGS.StepIn
-    MustAddrs    = gflags.FLAGS.MustAddr
-    DisasmPart   = gflags.FLAGS.DisasmPart
+    FuncStartIP    = gflags.FLAGS.S
+    FuncEndIP      = gflags.FLAGS.E
+    PauseIPs       = gflags.FLAGS.Pause
+    PauseIPOnce    = gflags.FLAGS.PauseOnce
+    StepIns        = gflags.FLAGS.StepIn
+    MustAddrs      = gflags.FLAGS.MustAddr
+    DisasmPart     = gflags.FLAGS.DisasmPart
+    StartInModules = gflags.FLAGS.StartInModules
+    EndInModules   = gflags.FLAGS.EndInModules
     if FuncStartIP >= FuncEndIP:
         print("the first is start addr and the second is end addr")
         exit()
         
+    StepInModuleFlag = False
+    HadStepInStatus  = StepStatus.StepOver
+    if len(StartInModules) > 0 and len(EndInModules) > 0:
+        StepInModuleFlag = True
         
     dbg          = MyDebug()
     connect_flag = dbg.connect()
@@ -134,11 +148,28 @@ if __name__ == "__main__":
         print("currentRIP: 0x{:0>8X} eax: 0x{:0>8X}".format(eip, eax))
         
         dbg.enable_commu_sync_time(True)
-        if eip in StepIns:
-            print("Step Into...")
-            dbg.set_debug("StepIn")
+        if StepInModuleFlag:
+            InRangeFlag = False
+            for i in range(len(StartInModules)):
+                if eip >= StartInModules[i] and eip <= EndInModules[i]:
+                    HadStepInFlag = StepStatus.StepIn
+                    InRangeFlag   = True
+                    break
+            if InRangeFlag is False:
+                HadStepInFlag = StepStatus.StepOut
         else:
+            if eip in StepIns:
+                HadStepInFlag = StepStatus.StepIn
+                
+        if HadStepInFlag == StepStatus.StepOver:
             dbg.set_debug("StepOver")
+        else:
+            if HadStepInFlag == StepStatus.StepOut:
+                print("Step Out...")
+                dbg.set_debug("StepOut")
+            else:
+                print("Step Into...")
+                dbg.set_debug("StepIn")
         
         if LastestIPFlag is True:
             break
