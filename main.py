@@ -20,6 +20,7 @@ gflags.DEFINE_string('DisasmPart',        "", 'jmp')
 gflags.DEFINE_multi_int('StartInModules', [], 'start in module')
 gflags.DEFINE_multi_int('EndInModules',   [], 'end in module')
 
+
 class StepStatus(Enum):
     StepOver = 0
     StepIn   = 1
@@ -109,7 +110,6 @@ if __name__ == "__main__":
             print(PauseIPOnce)
             in_key = input("This is a pause point where you can make changes to the x64dbg...")
             
-        
         if eip in EIPSet:
             dbg.enable_commu_sync_time(True)
             dbg.set_debug("StepOver")
@@ -148,28 +148,31 @@ if __name__ == "__main__":
         print("currentRIP: 0x{:0>8X} eax: 0x{:0>8X}".format(eip, eax))
         
         dbg.enable_commu_sync_time(True)
+                
         if StepInModuleFlag:
             InRangeFlag = False
             for i in range(len(StartInModules)):
                 if eip >= StartInModules[i] and eip <= EndInModules[i]:
-                    HadStepInFlag = StepStatus.StepIn
+                    HadStepInStatus = StepStatus.StepIn
                     InRangeFlag   = True
                     break
             if InRangeFlag is False:
-                HadStepInFlag = StepStatus.StepOut
+                HadStepInStatus = StepStatus.StepOut
         else:
             if eip in StepIns:
-                HadStepInFlag = StepStatus.StepIn
+                HadStepInStatus = StepStatus.StepIn
                 
-        if HadStepInFlag == StepStatus.StepOver:
+        if HadStepInStatus == StepStatus.StepOver:
             dbg.set_debug("StepOver")
         else:
-            if HadStepInFlag == StepStatus.StepOut:
+            if HadStepInStatus == StepStatus.StepOut:
                 print("Step Out...")
                 dbg.set_debug("StepOut")
             else:
                 print("Step Into...")
                 dbg.set_debug("StepIn")
+
+                
         
         if LastestIPFlag is True:
             break
