@@ -151,11 +151,10 @@ if __name__ == "__main__":
             
         
         if EBPOld != ebp and EnablePrtEBP:
-            disasmFlowItem += "\n;"+"ebp : 0x{:0>8X}".format(ebp)
+            disasmFlowItem = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmFlowItem
             EBPOld = ebp
         if ESPOld != esp and EnablePrtESP:
-            print(EnablePrtESP)
-            disasmFlowItem += "\n;"+"esp : 0x{:0>8X}".format(esp)
+            disasmFlowItem = ";esp : 0x{:0>8X}\n".format(esp) + disasmFlowItem
             ESPOld = esp
             
         #print(IPRegs)
