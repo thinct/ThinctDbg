@@ -9,19 +9,21 @@ from LyScript32 import MyDebug
 # .\RuntimeTrace.py --S 0x00402029 --E 0x0040206A --StepIn 0x00402064 --StepIn 0x68B09B26 --MustAddr 0x68B09B0A --PauseOnce 0x68B09B0A
 # .\RuntimeTrace.py --S 0x01071AD0 --E 0x01071BC1 --StartInModules 0x01060000 --EndInModules 0x01076FF2
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP
+# .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP --ModifyCallAddr
 
 # 定义标志
-gflags.DEFINE_integer('S',                0x0, 'start point')
-gflags.DEFINE_integer('E',                0x0, 'end point')
-gflags.DEFINE_multi_int('Pause',          [], 'pause list')
-gflags.DEFINE_multi_int('PauseOnce',      [], 'pause once list')
-gflags.DEFINE_multi_int('StepIn',         [], 'Step into')
-gflags.DEFINE_multi_int('MustAddr',       [], 'Must step to the Addr')
-gflags.DEFINE_string('DisasmPart',        "", 'jmp')
-gflags.DEFINE_multi_int('StartInModules', [], 'start in module')
-gflags.DEFINE_multi_int('EndInModules',   [], 'end in module')
-gflags.DEFINE_boolean('EnablePrtEBP',     True, 'enable print ebp')
-gflags.DEFINE_boolean('EnablePrtESP',     True, 'enable print esp')
+gflags.DEFINE_integer('S',                    0x0, 'start point')
+gflags.DEFINE_integer('E',                    0x0, 'end point')
+gflags.DEFINE_multi_int('Pause',              [], 'pause list')
+gflags.DEFINE_multi_int('PauseOnce',          [], 'pause once list')
+gflags.DEFINE_multi_int('StepIn',             [], 'Step into')
+gflags.DEFINE_multi_int('MustAddr',           [], 'Must step to the Addr')
+gflags.DEFINE_string('DisasmPart',            "", 'jmp')
+gflags.DEFINE_multi_int('StartInModules',     [], 'start in module')
+gflags.DEFINE_multi_int('EndInModules',       [], 'end in module')
+gflags.DEFINE_boolean('EnablePrtEBP',         True, 'enable print ebp')
+gflags.DEFINE_boolean('EnablePrtESP',         True, 'enable print esp')
+gflags.DEFINE_boolean('EnableModifyCallAddr', False, 'enable modify the absolute call address')
 
 class StepStatus(Enum):
     StepOver = 0
@@ -38,18 +40,18 @@ if __name__ == "__main__":
     # 解析命令行参数
     gflags.FLAGS(sys.argv)
     print(hex(gflags.FLAGS.S))
-    FuncStartIP    = gflags.FLAGS.S
-    FuncEndIP      = gflags.FLAGS.E
-    PauseIPs       = gflags.FLAGS.Pause
-    PauseIPOnce    = gflags.FLAGS.PauseOnce
-    StepIns        = gflags.FLAGS.StepIn
-    MustAddrs      = gflags.FLAGS.MustAddr
-    DisasmPart     = gflags.FLAGS.DisasmPart
-    StartInModules = gflags.FLAGS.StartInModules
-    EndInModules   = gflags.FLAGS.EndInModules
-    EnablePrtEBP   = gflags.FLAGS.EnablePrtEBP
-    EnablePrtESP   = gflags.FLAGS.EnablePrtESP
-    print('$$$', EnablePrtEBP, EnablePrtESP)
+    FuncStartIP            = gflags.FLAGS.S
+    FuncEndIP              = gflags.FLAGS.E
+    PauseIPs               = gflags.FLAGS.Pause
+    PauseIPOnce            = gflags.FLAGS.PauseOnce
+    StepIns                = gflags.FLAGS.StepIn
+    MustAddrs              = gflags.FLAGS.MustAddr
+    DisasmPart             = gflags.FLAGS.DisasmPart
+    StartInModules         = gflags.FLAGS.StartInModules
+    EndInModules           = gflags.FLAGS.EndInModules
+    EnablePrtEBP           = gflags.FLAGS.EnablePrtEBP
+    EnablePrtESP           = gflags.FLAGS.EnablePrtESP
+    EnableModifyCallAddr   = gflags.FLAGS.EnableModifyCallAddr
     if FuncStartIP >= FuncEndIP:
         print("the first is start addr and the second is end addr")
         exit()
@@ -146,7 +148,7 @@ if __name__ == "__main__":
             if len(disasm) == 13:
                 if int(str(disasm[3:13]), 16) < eip:
                     disasmFlowItem += ";GOTO BACK"
-        elif disasm[0:4] == 'call' and disasm[5:7] == '0x':
+        elif EnableModifyCallAddr and disasm[0:4] == 'call' and disasm[5:7] == '0x':
             disasmFlowItem = 'mov eax, ' + disasm[5:15] + '\n' + "/*0x{:0>8X}*/    call eax".format(eip)
             
         
