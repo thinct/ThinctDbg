@@ -30,6 +30,31 @@ class StepStatus(Enum):
     StepIn   = 1
     StepOut  = 2
     
+# strStrExp like as [ebp-4]
+def get_ref_and_value(dbg, strStrExp):
+    strStrExpWithRef = strStrExp[1:-1] # --> ebp-4
+    time.sleep(0.1)
+    dbg.run_command_exec("push eax")
+    time.sleep(0.1)
+    ref1 = dbg.run_command_exec("eax="+strStrExpWithRef)
+    time.sleep(0.1)
+    refAddr = dbg.get_register("eax")
+    refAddr = 0x100000000+refAddr if refAddr < 0 else refAddr # just for 32bit
+    if refAddr < 0x2000: # Not allow access
+        time.sleep(0.1)
+        dbg.run_command_exec("pop eax")
+        time.sleep(0.1)
+        return None
+    time.sleep(0.1)
+    ref2 = dbg.run_command_exec("mov eax, "+strStrExp)
+    time.sleep(0.1)
+    refValue = dbg.get_register("eax")
+    refValue = 0x100000000+refValue if refValue < 0 else refValue
+    dbg.run_command_exec("pop eax")
+    time.sleep(0.1)
+    return refAddr,refValue if (ref1 and ref2) else None
+    
+    
 if __name__ == "__main__":
     print('args count:', len(sys.argv))
     print('argv list:', str(sys.argv))
@@ -150,8 +175,20 @@ if __name__ == "__main__":
                     disasmFlowItem += ";GOTO BACK"
         elif EnableModifyCallAddr and disasm[0:4] == 'call' and disasm[5:7] == '0x':
             disasmFlowItem = 'mov eax, ' + disasm[5:15] + '\n' + "/*0x{:0>8X}*/    call eax".format(eip)
-            
-        
+        else:
+            # disasm="lea eax,dword ptr ss:[ebp-4]"
+            # disasm="mov dword ptr ds:[edi],esi"
+            matchRefAddr = re.compile(r'\[([^\]]+)\]').search(disasm)
+            if matchRefAddr:
+                refValueExp = "[{}]".format(matchRefAddr.group(1))
+                refAndValue = get_ref_and_value(dbg, refValueExp)
+                if (refAndValue is not None):
+                    print(refAndValue[0])
+                    if refAndValue[0]>0x1000:
+                        #[edi]=[0x5c53c0]=0x888
+                        print(";{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]))
+                        disasmFlowItem = ";{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]) + disasmFlowItem
+                
         if EBPOld != ebp and EnablePrtEBP:
             disasmFlowItem = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmFlowItem
             EBPOld = ebp
