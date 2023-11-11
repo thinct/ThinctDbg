@@ -174,7 +174,7 @@ if __name__ == "__main__":
             if (refAndValue is not None):
                 if MemRefValueGroup[1] == refAndValue[0] and MemRefValueGroup[2] != refAndValue[1]:
                     print(";0;{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]))
-                    disasmFlowItem = ";{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                    disasmFlowItem = ";{}=[0x{:0>8X}]=0x{:0>8X}  <-- Modify\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
             MemRefValueGroup = None
             
         disasmFlowItem += "/*0x{:0>8X}*/    {}".format(eip, disasm)
