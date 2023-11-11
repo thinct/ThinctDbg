@@ -12,6 +12,7 @@ from LyScript32 import MyDebug
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP --ModifyCallAddr
 
 # 定义标志
+# 指令相关
 gflags.DEFINE_integer('S',                    0x0, 'start point')
 gflags.DEFINE_integer('E',                    0x0, 'end point')
 gflags.DEFINE_multi_int('Pause',              [], 'pause list')
@@ -24,6 +25,8 @@ gflags.DEFINE_multi_int('EndInModules',       [], 'end in module')
 gflags.DEFINE_boolean('EnablePrtEBP',         True, 'enable print ebp')
 gflags.DEFINE_boolean('EnablePrtESP',         True, 'enable print esp')
 gflags.DEFINE_boolean('EnableModifyCallAddr', False, 'enable modify the absolute call address')
+
+
 
 class StepStatus(Enum):
     StepOver = 0
@@ -113,14 +116,15 @@ if __name__ == "__main__":
     if len(StepIns)>0 and len(MustAddrs) == 0:
         MustAddrs = [FuncEndIP]
         
-    regsJson       = {"AddrFlow":[]}
-    DisasmFlow     = ""
-    DisasmFlowDirc = {}
-    EIPSet         = []
-    EIPGoToSet     = []
-    LastestIPFlag  = False
-    EBPOld         = 0
-    ESPOld         = 0
+    regsJson         = {"AddrFlow":[]}
+    DisasmFlow       = ""
+    DisasmFlowDirc   = {}
+    EIPSet           = []
+    EIPGoToSet       = []
+    LastestIPFlag    = False
+    EBPOld           = 0
+    ESPOld           = 0
+    MemRefValueGroup = None
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
@@ -162,8 +166,18 @@ if __name__ == "__main__":
         IPRegs = {"IP":"0x{:0>8X}".format(eip), "Disasm":"{}".format(disasm),"Regs":{"eax":"0x{:0>8X}".format(eax)\
         ,"ecx":"0x{:0>8X}".format(ecx),"edx":"0x{:0>8X}".format(edx),"ebx":"0x{:0>8X}".format(ebx),"ebp":"0x{:0>8X}".format(ebp)\
         ,"esp":"0x{:0>8X}".format(esp),"esi":"0x{:0>8X}".format(esi),"edi":"0x{:0>8X}".format(edi)}}
+        
+        disasmFlowItem = ""
+        if MemRefValueGroup is not None:
+            refValueExp = MemRefValueGroup[0]
+            refAndValue = get_ref_and_value(dbg, refValueExp)
+            if (refAndValue is not None):
+                if MemRefValueGroup[1] == refAndValue[0] and MemRefValueGroup[2] != refAndValue[1]:
+                    print(";0;{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]))
+                    disasmFlowItem = ";{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
+            MemRefValueGroup = None
             
-        disasmFlowItem = "/*0x{:0>8X}*/    {}".format(eip, disasm)
+        disasmFlowItem += "/*0x{:0>8X}*/    {}".format(eip, disasm)
         print(disasmFlowItem)
         if disasm[0] == 'j': # jmp
             disasmFlowItem = ";" + disasmFlowItem
@@ -183,11 +197,10 @@ if __name__ == "__main__":
                 refValueExp = "[{}]".format(matchRefAddr.group(1))
                 refAndValue = get_ref_and_value(dbg, refValueExp)
                 if (refAndValue is not None):
-                    print(refAndValue[0])
-                    if refAndValue[0]>0x1000:
-                        #[edi]=[0x5c53c0]=0x888
-                        print(";{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]))
-                        disasmFlowItem = ";{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]) + disasmFlowItem
+                    #[edi]=[0x5c53c0]=0x888
+                    print(";1;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]))
+                    disasmFlowItem = disasmFlowItem + "\n;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                    MemRefValueGroup = (refValueExp,refAndValue[0],refAndValue[1])
                 
         if EBPOld != ebp and EnablePrtEBP:
             disasmFlowItem = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmFlowItem
