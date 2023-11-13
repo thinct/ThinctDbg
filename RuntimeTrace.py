@@ -11,8 +11,8 @@ from LyScript32 import MyDebug
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP --ModifyCallAddr
 
-# 定义标志
-# 指令相关
+# Definition flags
+# About instruction
 gflags.DEFINE_integer('S',                    0x0, 'start point')
 gflags.DEFINE_integer('E',                    0x0, 'end point')
 gflags.DEFINE_multi_int('Pause',              [], 'pause list')
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         print("please input disasm addr range")
         exit()
         
-    # 解析命令行参数
+    # Parse command line arguments
     gflags.FLAGS(sys.argv)
     print(hex(gflags.FLAGS.S))
     FuncStartIP            = gflags.FLAGS.S
