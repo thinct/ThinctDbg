@@ -34,6 +34,7 @@ class StepStatus(Enum):
     StepOut  = 2
     
 # strStrExp like as [ebp-4]
+# Consider only memory reads and writes in square brackets (both direct and indirect addressing)
 def get_ref_and_value(dbg, strStrExp):
     strStrExpWithRef = strStrExp[1:-1] # --> ebp-4
     time.sleep(0.1)
