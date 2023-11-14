@@ -47,10 +47,7 @@ def get_ref_and_value(dbg, strStrExp):
     time.sleep(0.1)
     refAddr = 0x100000000+refAddr if refAddr < 0 else refAddr # just for 32bit
     if refAddr < 0x2000: # Not allow access
-        ref1 = dbg.run_command_exec("eax=$reg")
-        time.sleep(0.1)
         return None
-    ref1 = dbg.run_command_exec("$reg=eax")
     ref2 = dbg.run_command_exec("mov eax, "+strStrExp)
     time.sleep(0.1)
     refValue = dbg.get_register("eax")
