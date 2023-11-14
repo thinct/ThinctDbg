@@ -11,8 +11,8 @@ from LyScript32 import MyDebug
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP --ModifyCallAddr
 
-# 定义标志
-# 指令相关
+# Definition flags
+# About instruction
 gflags.DEFINE_integer('S',                    0x0, 'start point')
 gflags.DEFINE_integer('E',                    0x0, 'end point')
 gflags.DEFINE_multi_int('Pause',              [], 'pause list')
@@ -34,6 +34,7 @@ class StepStatus(Enum):
     StepOut  = 2
     
 # strStrExp like as [ebp-4]
+# Consider only memory reads and writes in square brackets (both direct and indirect addressing)
 def get_ref_and_value(dbg, strStrExp):
     strStrExpWithRef = strStrExp[1:-1] # --> ebp-4
     time.sleep(0.1)
@@ -66,7 +67,7 @@ if __name__ == "__main__":
         print("please input disasm addr range")
         exit()
         
-    # 解析命令行参数
+    # Parse command line arguments
     gflags.FLAGS(sys.argv)
     print(hex(gflags.FLAGS.S))
     FuncStartIP            = gflags.FLAGS.S
