@@ -37,24 +37,25 @@ class StepStatus(Enum):
 def get_ref_and_value(dbg, strStrExp):
     strStrExpWithRef = strStrExp[1:-1] # --> ebp-4
     time.sleep(0.1)
-    dbg.run_command_exec("push eax")
-    time.sleep(0.1)
-    ref1 = dbg.run_command_exec("eax="+strStrExpWithRef)
+    ref1 = dbg.run_command_exec("$reg=eax")
+    ref1 = dbg.run_command_exec("$addr="+strStrExpWithRef)
+    ref1 = dbg.run_command_exec("eax=$addr")
     time.sleep(0.1)
     refAddr = dbg.get_register("eax")
+    ref1 = dbg.run_command_exec("eax=$reg")
+    time.sleep(0.1)
     refAddr = 0x100000000+refAddr if refAddr < 0 else refAddr # just for 32bit
     if refAddr < 0x2000: # Not allow access
-        time.sleep(0.1)
-        dbg.run_command_exec("pop eax")
+        ref1 = dbg.run_command_exec("eax=$reg")
         time.sleep(0.1)
         return None
-    time.sleep(0.1)
+    ref1 = dbg.run_command_exec("$reg=eax")
     ref2 = dbg.run_command_exec("mov eax, "+strStrExp)
     time.sleep(0.1)
     refValue = dbg.get_register("eax")
-    refValue = 0x100000000+refValue if refValue < 0 else refValue
-    dbg.run_command_exec("pop eax")
+    ref1 = dbg.run_command_exec("eax=$reg")
     time.sleep(0.1)
+    refValue = 0x100000000+refValue if refValue < 0 else refValue
     return refAddr,refValue if (ref1 and ref2) else None
     
     
@@ -93,6 +94,12 @@ if __name__ == "__main__":
     connect_flag = dbg.connect()
     print("MyDebug connect status: {}".format(connect_flag))
 
+    # refAndValue = get_ref_and_value(dbg, "[eax+0x4]")
+    # if (refAndValue is not None):
+    #     #[edi]=[0x5c53c0]=0x888
+    #     print(";1;[0x{:0>8X}]=0x{:0>8X}".format(refAndValue[0],refAndValue[1]))
+    # exit()
+        
     dbg.set_breakpoint(FuncStartIP)
     dbg.set_debug("run")   
     while True:
