@@ -26,8 +26,6 @@ gflags.DEFINE_boolean('EnablePrtEBP',         True, 'enable print ebp')
 gflags.DEFINE_boolean('EnablePrtESP',         True, 'enable print esp')
 gflags.DEFINE_boolean('EnableModifyCallAddr', False, 'enable modify the absolute call address')
 
-
-
 class StepStatus(Enum):
     StepOver = 0
     StepIn   = 1
@@ -66,7 +64,6 @@ if __name__ == "__main__":
         
     # Parse command line arguments
     gflags.FLAGS(sys.argv)
-    print(hex(gflags.FLAGS.S))
     FuncStartIP            = gflags.FLAGS.S
     FuncEndIP              = gflags.FLAGS.E
     PauseIPs               = gflags.FLAGS.Pause
@@ -91,19 +88,13 @@ if __name__ == "__main__":
     dbg          = MyDebug()
     connect_flag = dbg.connect()
     print("MyDebug connect status: {}".format(connect_flag))
-
-    # refAndValue = get_ref_and_value(dbg, "[eax+0x4]")
-    # if (refAndValue is not None):
-    #     #[edi]=[0x5c53c0]=0x888
-    #     print(";1;[0x{:0>8X}]=0x{:0>8X}".format(refAndValue[0],refAndValue[1]))
-    # exit()
         
     dbg.set_breakpoint(FuncStartIP)
     dbg.set_debug("run")   
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
-        print("0x{:0>8X}  0x{:0>8X}".format(eip,FuncStartIP))
+        print("0x{:0>8X} : 0x{:0>8X}".format(eip,FuncStartIP))
         # print("eip: 0x{:0>8X}".format(eip))
         # print("FuncStartIP: 0x{:0>8X}".format(FuncStartIP))
         if eip != FuncStartIP:
@@ -130,6 +121,7 @@ if __name__ == "__main__":
     EBPOld           = 0
     ESPOld           = 0
     MemRefValueGroup = None
+    MemRefKV         = []
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
@@ -179,7 +171,8 @@ if __name__ == "__main__":
             if (refAndValue is not None):
                 if MemRefValueGroup[1] == refAndValue[0] and MemRefValueGroup[2] != refAndValue[1]:
                     print(";0;{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]))
-                    disasmFlowItem = ";{}=[0x{:0>8X}]=0x{:0>8X}  <-- Modify\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                    disasmFlowItem =  ";{}=[0x{:0>8X}]=0x{:0>8X}  <-- Modify\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                    MemRefKV       += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
             MemRefValueGroup = None
             
         disasmFlowItem += "/*0x{:0>8X}*/    {}".format(eip, disasm)
@@ -204,8 +197,9 @@ if __name__ == "__main__":
                 if (refAndValue is not None):
                     #[edi]=[0x5c53c0]=0x888
                     print(";1;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]))
-                    disasmFlowItem = disasmFlowItem + "\n;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]) 
-                    MemRefValueGroup = (refValueExp,refAndValue[0],refAndValue[1])
+                    disasmFlowItem   =  disasmFlowItem + "\n;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                    MemRefValueGroup =  (refValueExp,refAndValue[0],refAndValue[1])
+                    MemRefKV         += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
                 
         if EBPOld != ebp and EnablePrtEBP:
             disasmFlowItem = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmFlowItem
@@ -281,6 +275,13 @@ if __name__ == "__main__":
     with open("AddrFlowEasyWithJmp.asm", "w") as f:
         for item in disasmWithLabel:
             f.write(item+'\n')
-     
+    
+    with open("MemoryChart.gv", "w") as f:
+        strMemoryLink = ""
+        for item in MemRefKV:
+            strMemoryLink += "    addr_{} -> addr_{}\n".format(item[0], item[1])
+        strGVChart = "strict digraph Memory {\n    node [shape=box];\n    rankdir = LR;\n\n" + strMemoryLink + r"}"
+        f.write(strGVChart)
+        
     dbg.close()
     print("Finished!")
