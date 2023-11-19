@@ -11,6 +11,10 @@ from LyScript32 import MyDebug
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP --ModifyCallAddr
 
+# convert to value  : addr_0x0{3,7}([1-9A-F]*\w*) --> value_0x$1
+# convert to stack  : addr_(0x0019F\w+) --> stack_$1
+# clear label index : \[label="\w+?"\]
+
 # Definition flags
 # About instruction
 gflags.DEFINE_integer('S',                    0x0, 'start point')
@@ -125,6 +129,10 @@ if __name__ == "__main__":
     while True:
         dbg.enable_commu_sync_time(False)
         eip = dbg.get_register("eip")
+        if eip <0x1000:
+            input("pause for invalid eip: 0x{:0>8X}".format(eip))
+            continue
+        
         if len(MustAddrs) > 0:
             if eip == MustAddrs[0]:
                 MustAddrs.pop(0)
@@ -146,7 +154,7 @@ if __name__ == "__main__":
             in_key = input("This is a pause point where you can make changes to the x64dbg...")
             
         
-        if eip in EIPSet:
+        if LastestIPFlag is False and eip in EIPSet:
             dbg.enable_commu_sync_time(True)
             dbg.set_debug("StepOver")
             continue
@@ -277,9 +285,11 @@ if __name__ == "__main__":
             f.write(item+'\n')
     
     with open("MemoryChart.gv", "w") as f:
+        index_order = 0
         strMemoryLink = ""
         for item in MemRefKV:
-            strMemoryLink += "    addr_{} -> addr_{}\n".format(item[0], item[1])
+            strMemoryLink += '''    addr_{} -> addr_{} [label="{}"]\n'''.format(item[0], item[1], index_order)
+            index_order += 1
         strGVChart = "strict digraph Memory {\n    node [shape=box];\n    rankdir = LR;\n\n" + strMemoryLink + r"}"
         f.write(strGVChart)
         
