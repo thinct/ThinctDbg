@@ -15,6 +15,8 @@ from LyScript32 import MyDebug
 # convert to stack  : addr_(0x0019F\w+) --> stack_$1
 # clear label index : \[label="\w+?"\]
 
+# 0x.*add.*,.*0x[0-9A-F]
+
 # Definition flags
 # About instruction
 gflags.DEFINE_integer('S',                    0x0,   'start point')
@@ -211,7 +213,7 @@ if __name__ == "__main__":
                 print(PauseIPOnce)
                 in_key = input("This is a pause point where you can make changes to the x64dbg...")
                 
-            if LastestIPFlag is False and eip in EIPSet:
+            if eip in EIPSet:
                 dbg.enable_commu_sync_time(True)
                 print("Step Over Continue when eip existed...")
                 dbg.set_debug("StepOver")
@@ -304,23 +306,21 @@ if __name__ == "__main__":
                 continue
                 
             HadStepInStatus = StepStatus.StepOver
-            if len(StepInStack)>0:
+
+            eipInRangeOfModulesFlag = False
+            for i in range(len(StartInModules)):
+                if eip >= StartInModules[i] and eip <= EndInModules[i]:
+                    eipInRangeOfModulesFlag = True
+                    break
+            if eipInRangeOfModulesFlag is False and len(StepInStack)>0:
                 HadStepInStatus = StepStatus.StepOut
                 
             if disasm[0:4] == 'call':
-                if eip in StepIns:
+                if eip in StepIns or eipInRangeOfModulesFlag:
                     HadStepInStatus = StepStatus.StepIn
                     asm_len = dbg.assemble_code_size(disasm)
                     StepInStack += [eip + asm_len]
-                    print("stack push(next eip): 0x{:0>8X}".format(StepInStack[-1]))
-                else:
-                    for i in range(len(StartInModules)):
-                        if eip >= StartInModules[i] and eip <= EndInModules[i]:
-                            HadStepInStatus = StepStatus.StepIn
-                            asm_len = dbg.assemble_code_size(disasm)
-                            StepInStack += [eip + asm_len]
-                            print("stack push(next eip): 0x{:0>8X}".format(StepInStack[-1]))
-                            break
+                    print("stack push(next eip): 0x{:0>8X}".format(StepInStack[-1]))                        
                     
             if HadStepInStatus == StepStatus.StepOver:
                 print("HadStepInStatus : Step Over.")
