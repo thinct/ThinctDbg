@@ -72,7 +72,7 @@ if __name__ == "__main__":
         
     # Parse command line arguments
     gflags.FLAGS(sys.argv)
-    
+                
     while True:
         FuncStartIP            = gflags.FLAGS.S
         FuncEndIP              = gflags.FLAGS.E
@@ -129,6 +129,22 @@ if __name__ == "__main__":
             MustAddrs = [FuncEndIP]
             
         while True:
+            with open('ExternMsg.txt', 'r') as file:
+                ExMsg = file.readline().strip()
+                if len(ExMsg)>0:
+                    print("ExMsg:",ExMsg)
+                    if ExMsg == "Broken":
+                        in_key = input("Extern MSG:Press normal key to continue...\n")
+                        if in_key == "q" or in_key == "quit":
+                            print("Extern MSG==>quit!")
+                            dbg.close()
+                            exit()
+                        if in_key == "restart":
+                            RestartScriptFlag = True
+                            break
+                    with open('ExternMsg.txt', 'w') as file:
+                        pass                
+            
             dbg.enable_commu_sync_time(False)
             eip = dbg.get_register("eip")
             print("-->  IP  0x{:0>8X}".format(eip))
@@ -138,6 +154,7 @@ if __name__ == "__main__":
                 print("stack pop: 0x{:0>8X}".format(StepInStack.pop()))
             
             if EipOld != eip:
+                # Current eip at function ret then step over
                 StartTime = time.time()
                 EipOld    = eip
                 
@@ -147,10 +164,10 @@ if __name__ == "__main__":
                 print("Condition Triggered : Timeout...")
             if eip == FuncStartIP:
                 PauseConditionTriggeredFlag = True
-                print("Condition Triggered : research FuncStartIP...")
+                print("Condition Triggered : Arrived FuncStartIP...")
             if eip == FuncEndIP:
                 PauseConditionTriggeredFlag = True
-                print("Condition Triggered : research FuncEndIP...")
+                print("Condition Triggered : Arrived FuncEndIP...")
             if PauseConditionTriggeredFlag: 
                 in_key = input("Press normal key to continue...\n")
                 if in_key == "q" or in_key == "quit":
