@@ -98,7 +98,8 @@ if __name__ == "__main__":
         while eip != FuncStartIP:
             print("0x{:0>8X} : 0x{:0>8X}".format(eip, FuncStartIP))
             in_key = input("The starting point has not been reached, so click any key to continue...")
-            if in_key == "q" or in_key == "quit":
+            in_key = in_key.upper()
+            if in_key == "q".upper() or in_key == "quit".upper():
                 print("quit!")
                 dbg.close()
                 exit()
@@ -130,20 +131,23 @@ if __name__ == "__main__":
             
         while True:
             with open('ExternMsg.txt', 'r') as file:
-                ExMsg = file.readline().strip()
+                ExMsg = file.readline().strip().upper()
                 if len(ExMsg)>0:
+                    with open('ExternMsg.txt', 'w') as file:
+                        pass  
                     print("ExMsg:",ExMsg)
-                    if ExMsg == "Broken":
-                        in_key = input("Extern MSG:Press normal key to continue...\n")
-                        if in_key == "q" or in_key == "quit":
+                    if ExMsg == "Broken".upper():
+                        in_key = input("Extern MSG:Press normal key to continue...\n").upper()
+                        if in_key == "q".upper() or in_key == "quit".upper():
                             print("Extern MSG==>quit!")
                             dbg.close()
                             exit()
-                        if in_key == "restart":
+                        elif in_key == "restart".upper():
                             RestartScriptFlag = True
                             break
-                    with open('ExternMsg.txt', 'w') as file:
-                        pass                
+                        elif in_key == "over".upper():
+                            LastestIPFlag = True
+                            break              
             
             dbg.enable_commu_sync_time(False)
             eip = dbg.get_register("eip")
@@ -169,16 +173,16 @@ if __name__ == "__main__":
                 PauseConditionTriggeredFlag = True
                 print("Condition Triggered : Arrived FuncEndIP...")
             if PauseConditionTriggeredFlag: 
-                in_key = input("Press normal key to continue...\n")
-                if in_key == "q" or in_key == "quit":
+                in_key = input("Press normal key to continue...\n").upper()
+                if in_key == "q".upper() or in_key == "quit".upper():
                     print("==>quit!")
                     StartTime = time.time()
                     dbg.close()
                     exit()
-                if in_key == "c" or in_key == "continue":
+                elif in_key == "c".upper() or in_key == "continue".upper():
                     print("==>continue!")
                     continue
-                if in_key == "restart":
+                elif in_key == "restart".upper():
                     RestartScriptFlag = True
                     break
             
