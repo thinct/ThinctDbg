@@ -149,7 +149,12 @@ if __name__ == "__main__":
                             break
                         elif in_key == "over".upper():
                             LastestIPFlag = True
-                            break              
+                            break         
+                    elif ExMsg == "Over".upper():    
+                        LastestIPFlag = True
+                        break      
+                    else
+                        print(len(ExMsg), len(ExMsg))
             
             dbg.enable_commu_sync_time(False)
             eip = dbg.get_register("eip")
