@@ -41,85 +41,66 @@ if __name__ == "__main__":
     Step         = gflags.FLAGS.Step
     RegExp       = gflags.FLAGS.RegExp
 
-    AddrsFromIDA = []
-    with open('C:/InsAddress', 'r') as file:
+    AddrsFromIDA        = []
+    AddrsFromIDAWithOpr = {}
+    with open('C:/DisasmSet', 'r', encoding='utf-8') as file:
         while line := file.readline():
-            AddrsFromIDA += [int(line,16)]
+            # print(line)
+            # ['0X00401000', '', '', '', 'PUSH', '', '', '', 'EBP\n']
+            lineItems = line.upper().split(' ')
+            addrValue = int(lineItems[0],16)
+            AddrsFromIDA += [addrValue]
+            AddrsFromIDAWithOpr[addrValue] = lineItems[4]
+            # print(AddrsFromIDA)
+            # print(AddrsFromIDAWithOpr)
         
     dbg = MyDebug()
     connect_flag = dbg.connect()
     print("连接状态: {}".format(connect_flag))
-    dbg.enable_commu_sync_time(True)
     
-    currentRIP = FuncStartIP
-        
-    printFormatIndex = 0
-    DisasmFlows = ''    
-    while True:
-        dbg.enable_commu_sync_time(False)
-        if currentRIP+1 > FuncEndIP:
-            break
-        
-        disasm  = dbg.get_disasm_one_code(currentRIP)
-        ref = GetHexCode(dbg, currentRIP)
-        
-        if disasm == "int3":
-            currentRIP = currentRIP + len(ref)
-            continue
-        if len(ref)==2:
-            if (ref[0] == 0 and ref[1] == 0):
-                currentRIP = currentRIP + len(ref)
-                continue
-        if len(ref) == 0:
-            currentRIP = currentRIP + 1
-            continue
-        if '?' in disasm:
-            currentRIP = currentRIP + len(ref)
-            continue
-        currentRIP = currentRIP + len(ref)
-        
-        DisasmFlows = DisasmFlows + "0x{:0>8X}    {}\n".format(currentRIP, disasm)
-        
-    print("DisasmFlows:\n{}".format(DisasmFlows))
-
-    #提取所有指令地址，然后按照步长设置断点
+    # 比对相同地址Dbg和IDA反汇编代码是否是一致的，只对一致的代码进行下断点处理
     addressWithStep = []
+    addrIndex       = 0
+    dbg.enable_commu_sync_time(False)
+    for i in range(len(AddrsFromIDA)):
+        IPAddr = AddrsFromIDA[i]
+        disasm  = dbg.get_disasm_one_code(IPAddr).upper()
+        if AddrsFromIDAWithOpr[IPAddr] not in disasm:
+            print("0x{:0>8X} {}".format(IPAddr, disasm.upper()))
+            print("0x{:0>8X} {}".format(IPAddr, AddrsFromIDAWithOpr[IPAddr]))
+            print("not matched.")
+        else:
+            print("matched")
+            if Step>0:
+                addrIndex+=1
+                if addrIndex % Step != 0:
+                    continue
+                print("0x{:0>8X} {}".format(IPAddr, disasm.upper()))
+                addressWithStep += [IPAddr]
+                # 跳过step条指令
+                i += Step
+    
+    print("BP readly!")
+    print("--------------------------------------------\n")
+    
+    #提取所有指令地址，然后按照步长设置断点
     if Step>0:
         dbg.enable_commu_sync_time(True)
-        # 使用splitlines()方法将文本拆分成行，并遍历每一行提取地址部分
-        addresses = [line.split()[0] for line in DisasmFlows.splitlines() if line.strip()]
         # 打印提取的地址部分
-        addrIndex = 0
-        for address in addresses:
-            addrIndex+=1
-            addrValue = int(address, 16)
-            if addrValue not in AddrsFromIDA:
-                continue
-            if addrIndex % Step != 0:
-                continue
-            print("BP {}".format(address))
-            dbg.set_breakpoint(addrValue)
-            addressWithStep += [address]
+        for address in addressWithStep:
+            print("Set BP 0x{:0>8X}".format(address))
+            dbg.set_breakpoint(address)
 
-    if RegExp is not '':
-        dbg.enable_commu_sync_time(True)
-        #pattern = r"(0x[0-9A-F]{8})\s*?push ebp[\s\S]*?push edi[\s\S]*?push esi"
-        #pattern = r"(0x[0-9A-F]{8})\s*?" + r"add[\s\S]*?add[\s\S]*?"
-        pattern = r"(0x[0-9A-F]{8})\s*?" + RegExp
-        print(pattern)
-        matches = re.findall(pattern, DisasmFlows, re.MULTILINE)
-        # Print the matches and their respective addresses
-        for instruction in matches:
-            print(f"Instruction:\n {instruction}")
-            dbg.set_breakpoint(int(instruction, 16))
-
+    print("BP finished\n")
+    print("--------------------------------------------\n")
+  
     addressViaBreakStep = []
     addressViaBreakRepetStep = []
     while True:
         dbg.set_debug("run")
         with open('ExternMsg.txt', 'r') as file:
             ExMsg = file.readline().strip().upper()
-            if ExMsg is not '':
+            if ExMsg != '':
                 input('wait a moment...')
             if ExMsg == "Reset".upper():
                 addressViaBreakStep = []
@@ -136,7 +117,6 @@ if __name__ == "__main__":
         addressViaBreakStep += [eip]
         
     print(addressViaBreakStep)
-    input('wait a momentAAA...')
     
     while True:
         eip = dbg.get_register("eip")
@@ -146,18 +126,14 @@ if __name__ == "__main__":
                 break
 
     for breakStep in addressWithStep:
-        addrValue = int(breakStep, 16)
-        if addrValue not in addressViaBreakStep:
-            print("delete breakpoint 0x{:0>8X}".format(addrValue))
-            dbg.delete_breakpoint(addrValue)
+        if breakStep not in addressViaBreakStep:
+            print("delete breakpoint 0x{:0>8X}".format(breakStep))
+            dbg.delete_breakpoint(breakStep)
     
     print("--------------------------------------------\n")
     for repetItem in addressViaBreakRepetStep:
         addrValue = repetItem
         print("repet addr: 0x{:0>8X}\n".format(addrValue))
-    
-    with open("DisasmFlows.asm", "w") as f:
-        f.write(DisasmFlows)
     
     dbg.close()
     print("Finished!")

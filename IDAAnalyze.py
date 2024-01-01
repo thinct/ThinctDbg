@@ -37,7 +37,8 @@ def DisassembleRange(start_ea, end_ea):
     return codes
     
 def GenAllAssemblyAddresses():  
-    insSet = []
+    insSet    = []
+    disasmSet = []
     for function_ea in idautils.Functions():
         for ins in idautils.FuncItems(function_ea):
             if idaapi.isCode(idaapi.getFlags(ins)):
@@ -45,11 +46,17 @@ def GenAllAssemblyAddresses():
                 mnem = cmd.split(' ')[0]
                 #print("0x{:0>8X}    {}\n".format(ins, mnem))
                 print("0x{:0>8X}    {}\n".format(ins, cmd))
-                insSet += [ins]
+                insSet    += [ins]
+                disasmSet += ["0x{:0>8X}    {}\n".format(ins, cmd)]
                 
-    with open("C:/InsAddress", "w") as f:
+    with open("C:/InsAddress", "w", encoding='utf-8') as f:
         for item in insSet:
             f.write("0x{:0>8X}".format(item)+'\n')
+    print("InsAddress writen finished.")
+    with open("C:/DisasmSet", "w", encoding='utf-8') as f:
+        for item in disasmSet:
+            f.write(item)
+    print("DisasmSet writen finished.")
   
 #DisassembleRange(0x004079C0, 0x004079CC)
 GenAllAssemblyAddresses()
