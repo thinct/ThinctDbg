@@ -16,6 +16,7 @@ from LyScript32 import MyDebug
 # clear label index : \[label="\w+?"\]
 
 # 0x.*add.*,.*0x[0-9A-F]
+# (value_0x.*")  $1 color=red
 
 # Definition flags
 # About instruction
@@ -31,12 +32,13 @@ gflags.DEFINE_multi_int('EndInModules',       [],    'end in module')
 gflags.DEFINE_boolean('EnablePrtEBP',         True,  'enable print ebp')
 gflags.DEFINE_boolean('EnablePrtESP',         True,  'enable print esp')
 gflags.DEFINE_boolean('EnableModifyCallAddr', False, 'enable modify the absolute call address')
+gflags.DEFINE_boolean('EnableSnapMode',       False, 'just focus on snippet of code')
 
 class StepStatus(Enum):
     StepOver = 0
     StepIn   = 1
     StepOut  = 2 
-    
+
 # strStrExp like as [ebp-4]
 # Consider only memory reads and writes in square brackets (both direct and indirect addressing)
 def get_ref_and_value(dbg, strStrExp):
@@ -45,36 +47,42 @@ def get_ref_and_value(dbg, strStrExp):
     ref1 = dbg.run_command_exec("$reg=eax")
     ref1 = dbg.run_command_exec("$addr="+strStrExpWithRef)
     ref1 = dbg.run_command_exec("eax=$addr")
-    
+
     time.sleep(0.1)
     refAddr = dbg.get_register("eax")
     ref1    = dbg.run_command_exec("eax=$reg")
-    
+
     time.sleep(0.1)
     refAddr = 0x100000000 + refAddr if refAddr < 0 else refAddr # just for 32bit
     if refAddr < 0x2000: # Not allow access
         return None
     ref2 = dbg.run_command_exec("mov eax, "+strStrExp)
-    
+
     time.sleep(0.1)
     refValue = dbg.get_register("eax")
     ref1     = dbg.run_command_exec("eax=$reg")
-    
+
     time.sleep(0.1)
     refValue = 0x100000000+refValue if refValue < 0 else refValue
     return refAddr,refValue if (ref1 and ref2) else None
-    
-    
+
 if __name__ == "__main__":
+    with open('ExternMsg.txt', 'r') as file:
+        ExMsg = file.readline().strip().upper()
+        if ExMsg == "stdout".upper():
+            sys.stdout = open('stdout.log', mode = 'w',encoding='utf-8')
+
     print('args count:', len(sys.argv))
     print('argv list:', str(sys.argv))
     if len(sys.argv)<2:
         print("please input disasm addr range")
         exit()
-        
+
+    SnapModeActiving = False
+
     # Parse command line arguments
     gflags.FLAGS(sys.argv)
-                
+
     while True:
         FuncStartIP            = gflags.FLAGS.S
         FuncEndIP              = gflags.FLAGS.E
@@ -88,29 +96,30 @@ if __name__ == "__main__":
         EnablePrtEBP           = gflags.FLAGS.EnablePrtEBP
         EnablePrtESP           = gflags.FLAGS.EnablePrtESP
         EnableModifyCallAddr   = gflags.FLAGS.EnableModifyCallAddr
+        EnableSnapMode         = gflags.FLAGS.EnableSnapMode
         if FuncStartIP >= FuncEndIP:
             print("the first is start addr and the second is end addr")
             exit()
-            
+
         dbg          = MyDebug()
         connect_flag = dbg.connect()
         print("MyDebug connect status: {}".format(connect_flag))
-            
-        eip = dbg.get_register("eip")
-        while eip != FuncStartIP:
-            print("0x{:0>8X} : 0x{:0>8X}".format(eip, FuncStartIP))
-            in_key = input("The starting point has not been reached, so click any key to continue...")
-            in_key = in_key.upper()
-            if in_key == "q".upper() or in_key == "quit".upper():
-                print("quit!")
-                dbg.close()
-                exit()
-            dbg.set_breakpoint(FuncStartIP)
-            dbg.set_debug("run") 
-            eip = dbg.get_register("eip")
-            dbg.delete_breakpoint(FuncStartIP)
 
-            
+        eip = dbg.get_register("eip")
+        if not EnableSnapMode:
+            while eip != FuncStartIP:
+                print("0x{:0>8X} : 0x{:0>8X}".format(eip, FuncStartIP))
+                in_key = input("The starting point has not been reached, so click any key to continue...")
+                in_key = in_key.upper()
+                if in_key == "q".upper() or in_key == "quit".upper():
+                    print("quit!")
+                    dbg.close()
+                    exit()
+                dbg.set_breakpoint(FuncStartIP)
+                dbg.set_debug("run") 
+                eip = dbg.get_register("eip")
+                dbg.delete_breakpoint(FuncStartIP)
+
         regsJson          = {"AddrFlow":[]}
         DisasmFlow        = ""
         DisasmFlowDirc    = {}
@@ -127,48 +136,55 @@ if __name__ == "__main__":
         StepInCounter     = 0
         StepInStack       = []
         HadStepInStatus   = StepStatus.StepOver
-        
+
         if len(StepIns)>0 and len(MustAddrs) == 0:
             MustAddrs = [FuncEndIP]
-            
+
         while True:
             with open('ExternMsg.txt', 'r') as file:
                 ExMsg = file.readline().strip().upper()
-                if len(ExMsg)>0:
-                    with open('ExternMsg.txt', 'w') as file:
-                        pass  
+                if ExMsg.strip() != "":
                     print("ExMsg:",ExMsg)
-                    if ExMsg == "Broken".upper():
-                        in_key = input("Extern MSG:Press normal key to continue...\n").upper()
-                        if in_key == "q".upper() or in_key == "quit".upper():
-                            print("Extern MSG==>quit!")
-                            dbg.close()
-                            exit()
-                        elif in_key == "restart".upper():
-                            RestartScriptFlag = True
-                            break
-                        elif in_key == "over".upper():
-                            LastestIPFlag = True
-                            break         
-                    elif ExMsg == "Over".upper():    
+                    with open('ExternMsg.txt', 'w') as file:
+                        pass
+                    if ExMsg == "q".upper() or ExMsg == "quit".upper():
+                        print("Extern MSG==>quit!")
+                        dbg.close()
+                        exit()
+                    elif ExMsg == "restart".upper():
+                        RestartScriptFlag = True
+                        break
+                    elif ExMsg == "over".upper():
                         LastestIPFlag = True
-                        break      
-                    else
-                        print(len(ExMsg), len(ExMsg))
-            
+                        break
+                    elif ExMsg == "SnapStart".upper():
+                        RestartScriptFlag = True # it as same as restart
+                        SnapModeActiving  = True
+                        break
+                    elif ExMsg == "SnapEnd".upper(): 
+                        LastestIPFlag    = True # it as same as over
+                        SnapModeActiving = False
+                        break
+
+            if EnableSnapMode and not LastestIPFlag and not SnapModeActiving:
+                dbg.enable_commu_sync_time(True)
+                print('.',end='',flush=True)
+                dbg.set_debug("run")
+                continue
+
             dbg.enable_commu_sync_time(False)
             eip = dbg.get_register("eip")
             print("-->  IP  0x{:0>8X}".format(eip))
-            
+
             if len(StepInStack)>0 and StepInStack[-1] == eip:
                 HadStepInStatus = StepStatus.StepOver
                 print("stack pop: 0x{:0>8X}".format(StepInStack.pop()))
-            
+
             if EipOld != eip:
                 # Current eip at function ret then step over
                 StartTime = time.time()
                 EipOld    = eip
-                
+
             PauseConditionTriggeredFlag = False
             if time.time()-StartTime > 3:
                 PauseConditionTriggeredFlag = True
@@ -192,11 +208,11 @@ if __name__ == "__main__":
                 elif in_key == "restart".upper():
                     RestartScriptFlag = True
                     break
-            
+
             if eip <0x1000:
                 input("pause for invalid eip: 0x{:0>8X}".format(eip))
                 continue
-            
+
             if len(MustAddrs) > 0:
                 if eip == MustAddrs[0]:
                     MustAddrs.pop(0)
@@ -208,7 +224,7 @@ if __name__ == "__main__":
                 if eip == FuncEndIP:
                     print("LastestIPFlag  IP  0x{:0>8X}".format(eip))
                     LastestIPFlag = True
-                    
+
             disasm  = dbg.get_disasm_one_code(eip)
             if eip in PauseIPs or (DisasmPart != "" and str(DisasmPart) in disasm):
                 print("pause condition:", disasm, DisasmPart)
@@ -217,14 +233,14 @@ if __name__ == "__main__":
                 PauseIPOnce.remove(eip)
                 print(PauseIPOnce)
                 in_key = input("This is a pause point where you can make changes to the x64dbg...")
-                
+
             if eip in EIPSet:
                 dbg.enable_commu_sync_time(True)
                 print("Step Over Continue when eip existed...")
                 dbg.set_debug("StepOver")
                 continue
             EIPSet += [eip]
-             
+
             eax    = dbg.get_register("eax")
             ecx    = dbg.get_register("ecx")
             edx    = dbg.get_register("edx")
@@ -244,7 +260,7 @@ if __name__ == "__main__":
                      , "esi":"0x{:0>8X}".format(esi)         \
                      , "edi":"0x{:0>8X}".format(edi)}        \
                      }
-            
+
             disasmFlowItem = ""
             if MemRefValueGroup is not None:
                 refValueExp = MemRefValueGroup[0]
@@ -255,7 +271,7 @@ if __name__ == "__main__":
                         disasmFlowItem =  ";{}=[0x{:0>8X}]=0x{:0>8X}  <-- Modify\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
                         MemRefKV       += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
                 MemRefValueGroup = None
-                
+
             disasmFlowItem += "/*0x{:0>8X}*/    {}".format(eip, disasm)
             print(disasmFlowItem)
             if disasm[0] == 'j': # jmp
@@ -283,33 +299,33 @@ if __name__ == "__main__":
                         disasmFlowItem   =  disasmFlowItem + "\n;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]) 
                         MemRefValueGroup =  (refValueExp,refAndValue[0],refAndValue[1])
                         MemRefKV         += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
-                    
+
             if EBPOld != ebp and EnablePrtEBP:
                 EBPOld         = ebp
                 disasmFlowItem = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmFlowItem
             if ESPOld != esp and EnablePrtESP:
                 ESPOld         = esp
                 disasmFlowItem = ";esp : 0x{:0>8X}\n".format(esp) + disasmFlowItem
-                
+
             #print(IPRegs)
             DisasmFlowDirc[eip]  =  disasmFlowItem
             regsJson["AddrFlow"] += [IPRegs]
             DisasmFlow           += disasmFlowItem + "\n"
             print("currentRIP: 0x{:0>8X} eax: 0x{:0>8X}".format(eip, eax))
-            
+
             dbg.enable_commu_sync_time(True)
             if LastestIPFlag is True:
                 print("Step Over when lastest...")
                 dbg.set_debug("StepOver")
                 break
-            
+
             # Current eip at function ret then step over
             if HadStepInStatus == StepStatus.StepOut:
                 print("Step Over from ret...")
                 HadStepInStatus = StepStatus.StepOver
                 dbg.set_debug("StepOver")
                 continue
-                
+
             HadStepInStatus = StepStatus.StepOver
 
             eipInRangeOfModulesFlag = False
@@ -319,14 +335,14 @@ if __name__ == "__main__":
                     break
             if eipInRangeOfModulesFlag is False and len(StepInStack)>0:
                 HadStepInStatus = StepStatus.StepOut
-                
+
             if disasm[0:4] == 'call':
                 if eip in StepIns or eipInRangeOfModulesFlag:
                     HadStepInStatus = StepStatus.StepIn
                     asm_len = dbg.assemble_code_size(disasm)
                     StepInStack += [eip + asm_len]
                     print("stack push(next eip): 0x{:0>8X}".format(StepInStack[-1]))                        
-                    
+
             if HadStepInStatus == StepStatus.StepOver:
                 print("HadStepInStatus : Step Over.")
                 dbg.set_debug("StepOver")
@@ -337,18 +353,18 @@ if __name__ == "__main__":
                 else:
                     print("HadStepInStatus : Step Into.")
                     dbg.set_debug("StepIn")
-       
+
         if RestartScriptFlag:
             dbg.close()
             continue
-            
+
         #print(regsJson)
         with open("AddrFlow.json", "w") as f:
             json.dump(regsJson["AddrFlow"], f, ensure_ascii=False, indent=2)
-            
+
         with open("AddrFlowEasy.asm", "w") as f:
             f.write(DisasmFlow)
-            
+
         LsDisasmFlowKeys = list(DisasmFlowDirc.items())
         LsDisasmFlowKeys.sort(key=lambda x:x[0],reverse=False)
         AddrJmpList    = []
@@ -371,11 +387,11 @@ if __name__ == "__main__":
             if item[2:12] in AddrJmpList:
                 item = "LABEL_{}:\n".format(item[2:12])+item
             disasmWithLabel += [item]
-            
+
         with open("AddrFlowEasyWithJmp.asm", "w") as f:
             for item in disasmWithLabel:
                 f.write(item+'\n')
-        
+
         with open("MemoryChart.gv", "w") as f:
             index_order = 0
             strMemoryLink = ""
@@ -384,7 +400,7 @@ if __name__ == "__main__":
                 index_order += 1
             strGVChart = "strict digraph Memory {\n    node [shape=box];\n    rankdir = LR;\n\n" + strMemoryLink + r"}"
             f.write(strGVChart)
-            
+
         dbg.close()
         print("Finished!")
         exit()
