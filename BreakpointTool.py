@@ -93,20 +93,31 @@ if __name__ == "__main__":
 
     print("BP finished\n")
     print("--------------------------------------------\n")
+
+    while True:
+        in_key = input("Continue to run for record brokenpoint of via address...\n").upper()
+        if ExMsg == 'yes'.upper():
+            break
+        if ExMsg == 'no'.upper():
+            print("Finished")
+            exit()
   
     addressViaBreakStep = []
     addressViaBreakRepetStep = []
     while True:
         dbg.set_debug("run")
+        ExMsg = ""
         with open('ExternMsg.txt', 'r') as file:
             ExMsg = file.readline().strip().upper()
+            with open('ExternMsg.txt', 'w') as f:
+                pass
             if ExMsg != '':
                 input('wait a moment...')
             if ExMsg == "Reset".upper():
                 addressViaBreakStep = []
-            
-            with open('ExternMsg.txt', 'w') as f:
-                pass  
+        if ExMsg == "Break".upper():
+            break
+
         eip = dbg.get_register("eip")
         if eip in addressViaBreakStep:
             addressViaBreakRepetStep += [eip]
