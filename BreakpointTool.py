@@ -84,8 +84,8 @@ if __name__ == "__main__":
     print("--------------------------------------------\n")
     
     #提取所有指令地址，然后按照步长设置断点
+    dbg.enable_commu_sync_time(True)
     if Step>0:
-        dbg.enable_commu_sync_time(True)
         # 打印提取的地址部分
         for address in addressWithStep:
             print("Set BP 0x{:0>8X}".format(address))
@@ -96,14 +96,17 @@ if __name__ == "__main__":
 
     while True:
         in_key = input("Continue to run for record brokenpoint of via address...\n").upper()
-        if ExMsg == 'yes'.upper():
+        if in_key == 'yes'.upper():
             break
-        if ExMsg == 'no'.upper():
+        elif in_key == 'no'.upper():
             print("Finished")
             exit()
   
     addressViaBreakStep = []
-    addressViaBreakRepetStep = []
+    indexOfAddressViaBreakStep = 0
+    testDisableBP = []
+    bpCannotContinue = 0
+    testDelBPAddr = 0
     while True:
         dbg.set_debug("run")
         ExMsg = ""
@@ -120,11 +123,23 @@ if __name__ == "__main__":
 
         eip = dbg.get_register("eip")
         if eip in addressViaBreakStep:
-            addressViaBreakRepetStep += [eip]
+            print("changed 0x{:0>8X} --- 0x{:0>8X}".format(eip, bpCannotContinue))
+            if eip == bpCannotContinue:
+                dbg.set_breakpoint(testDelBPAddr)
+                print("SetBP 0x{:0>8X}".format(testDelBPAddr))
+            bpCannotContinue = eip
+            if indexOfAddressViaBreakStep < len(addressViaBreakStep):
+                testDelBPAddr = addressViaBreakStep[indexOfAddressViaBreakStep]
+                indexOfAddressViaBreakStep += 1
+            if testDelBPAddr != 0x0:
+                testDisableBP += [testDelBPAddr]
+                dbg.delete_breakpoint(testDelBPAddr)
+                print("DelBP 0x{:0>8X}".format(testDelBPAddr))
+            input("please restart...")
             continue
         if eip == 0x0:
             break
-        print("0x{:0>8X}".format(eip))
+        print("append 0x{:0>8X}".format(eip))
         addressViaBreakStep += [eip]
         
     print(addressViaBreakStep)
@@ -142,9 +157,6 @@ if __name__ == "__main__":
             dbg.delete_breakpoint(breakStep)
     
     print("--------------------------------------------\n")
-    for repetItem in addressViaBreakRepetStep:
-        addrValue = repetItem
-        print("repet addr: 0x{:0>8X}\n".format(addrValue))
     
     dbg.close()
     print("Finished!")
