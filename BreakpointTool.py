@@ -84,7 +84,6 @@ if __name__ == "__main__":
     print("--------------------------------------------\n")
     
     #提取所有指令地址，然后按照步长设置断点
-    dbg.enable_commu_sync_time(True)
     if Step>0:
         # 打印提取的地址部分
         for address in addressWithStep:
@@ -102,60 +101,30 @@ if __name__ == "__main__":
             print("Finished")
             exit()
   
+    dbg.enable_commu_sync_time(True)
     addressViaBreakStep = []
-    indexOfAddressViaBreakStep = 0
-    testDisableBP = []
-    bpCannotContinue = 0
-    testDelBPAddr = 0
     while True:
         dbg.set_debug("run")
+        eip = dbg.get_register("eip")
         ExMsg = ""
         with open('ExternMsg.txt', 'r') as file:
             ExMsg = file.readline().strip().upper()
-            with open('ExternMsg.txt', 'w') as f:
-                pass
-            if ExMsg != '':
-                input('wait a moment...')
-            if ExMsg == "Reset".upper():
+            if ExMsg == 'Reset'.strip().upper():
                 addressViaBreakStep = []
-        if ExMsg == "Break".upper():
-            break
-
-        eip = dbg.get_register("eip")
-        if eip in addressViaBreakStep:
-            print("changed 0x{:0>8X} --- 0x{:0>8X}".format(eip, bpCannotContinue))
-            if eip == bpCannotContinue:
-                dbg.set_breakpoint(testDelBPAddr)
-                print("SetBP 0x{:0>8X}".format(testDelBPAddr))
-            bpCannotContinue = eip
-            if indexOfAddressViaBreakStep < len(addressViaBreakStep):
-                testDelBPAddr = addressViaBreakStep[indexOfAddressViaBreakStep]
-                indexOfAddressViaBreakStep += 1
-            if testDelBPAddr != 0x0:
-                testDisableBP += [testDelBPAddr]
-                dbg.delete_breakpoint(testDelBPAddr)
-                print("DelBP 0x{:0>8X}".format(testDelBPAddr))
-            input("please restart...")
-            continue
-        if eip == 0x0:
-            break
-        print("append 0x{:0>8X}".format(eip))
-        addressViaBreakStep += [eip]
-        
-    print(addressViaBreakStep)
-    
-    while True:
-        eip = dbg.get_register("eip")
-        in_key = input("Continue to delete invalid breakpoint...\n").upper()
-        if in_key.strip() != "":
-            if in_key == "yes".upper() or in_key == "Y".upper():
+                input("reset the via bp, you can enter other cmd, then continue parse...\n")
+                ExMsg = file.readline().strip().upper()
+            if ExMsg == 'Running'.strip().upper():
+                print("running while DelViaBP 0x{:0>8X}".format(eip))
+                dbg.delete_breakpoint(eip)
+                addressViaBreakStep += [eip]
+            if ExMsg == 'over'.strip().upper():
+                print("task over!!!")
                 break
-
-    for breakStep in addressWithStep:
-        if breakStep not in addressViaBreakStep:
-            print("delete breakpoint 0x{:0>8X}".format(breakStep))
-            dbg.delete_breakpoint(breakStep)
-    
+                
+    in_key = input("resume the deleted BP after delete unused bp of x64dbg window.\n").strip().upper()
+    if in_key == 'yes'.upper():
+        for deletedEip in addressViaBreakStep:
+            dbg.set_breakpoint(deletedEip)
     print("--------------------------------------------\n")
     
     dbg.close()
