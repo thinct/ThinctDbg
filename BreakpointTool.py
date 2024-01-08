@@ -8,10 +8,10 @@ import gflags
 # python BreakpointTool.py --E 0x403000 --Step 100
 # python BreakpointTool.py --S 0x400000 --E 0x410000 --Step 100
 
-gflags.DEFINE_integer('S',              0x0, 'start point')
-gflags.DEFINE_integer('E',              0x0, 'end point')
-gflags.DEFINE_integer('Step',           0x0, 'break point step')
-gflags.DEFINE_string('RegExp',           "", 'regular expression')
+gflags.DEFINE_integer('S',     0x0, 'start point')
+gflags.DEFINE_integer('E',     0x0, 'end point')
+gflags.DEFINE_integer('Step',  0x0, 'break point step')
+gflags.DEFINE_string('RegExp', "", 'regular expression')
 
 
     
@@ -25,7 +25,7 @@ def GetHexCode(dbg,address):
         ref_bytes.append(dbg.read_memory_byte(address))
         address = address + 1
     return ref_bytes    
-    
+
 if __name__ == "__main__":
     print('args count:', len(sys.argv))
     print('argv list:', str(sys.argv))
@@ -41,54 +41,53 @@ if __name__ == "__main__":
     Step         = gflags.FLAGS.Step
     RegExp       = gflags.FLAGS.RegExp
 
-    AddrsFromIDA        = []
-    AddrsFromIDAWithOpr = {}
+    AddrsFromIDAFuncs = []
     with open('C:/DisasmSet', 'r', encoding='utf-8') as file:
+        AddrsFromIDAFuncItem = []
         while line := file.readline():
             # print(line)
             # ['0X00401000', '', '', '', 'PUSH', '', '', '', 'EBP\n']
+            if ";--------" in line:
+                AddrsFromIDAFuncs += [AddrsFromIDAFuncItem]
+                AddrsFromIDAFuncItem = []
+                continue
             lineItems = line.upper().split(' ')
             addrValue = int(lineItems[0],16)
-            AddrsFromIDA += [addrValue]
-            AddrsFromIDAWithOpr[addrValue] = lineItems[4]
-            # print(AddrsFromIDA)
-            # print(AddrsFromIDAWithOpr)
-        
+            AddrsFromIDAFuncItem += [(addrValue, lineItems[4])]
+            
+    print("IDA functions group count : ", len(AddrsFromIDAFuncs))
+    
     dbg = MyDebug()
     connect_flag = dbg.connect()
     print("连接状态: {}".format(connect_flag))
     
     # 比对相同地址Dbg和IDA反汇编代码是否是一致的，只对一致的代码进行下断点处理
-    addressWithStep = []
+    addressNearFuncEntry = []
     addrIndex       = 0
     dbg.enable_commu_sync_time(False)
-    for i in range(len(AddrsFromIDA)):
-        IPAddr = AddrsFromIDA[i]
-        disasm  = dbg.get_disasm_one_code(IPAddr).upper()
-        if AddrsFromIDAWithOpr[IPAddr] not in disasm:
-            print("0x{:0>8X} {}".format(IPAddr, disasm.upper()))
-            print("0x{:0>8X} {}".format(IPAddr, AddrsFromIDAWithOpr[IPAddr]))
-            print("not matched.")
-        else:
-            print("matched")
-            if Step>0:
-                addrIndex+=1
-                if addrIndex % Step != 0:
-                    continue
+    for funcItem in AddrsFromIDAFuncs:
+        for insAsmLine in funcItem:
+            IPAddr,DisInsAsmOpr = insAsmLine
+            print(type(IPAddr))
+            print(IPAddr)
+            disasm  = dbg.get_disasm_one_code(IPAddr).upper()
+            if DisInsAsmOpr not in disasm:
                 print("0x{:0>8X} {}".format(IPAddr, disasm.upper()))
-                addressWithStep += [IPAddr]
-                # 跳过step条指令
-                i += Step
-    
+                print("0x{:0>8X} {}".format(IPAddr, DisInsAsmOpr))
+                print("not matched.")
+            else:
+                addressNearFuncEntry += [IPAddr]
+                print("matched")
+                break
+
     print("BP readly!")
     print("--------------------------------------------\n")
     
-    #提取所有指令地址，然后按照步长设置断点
-    if Step>0:
-        # 打印提取的地址部分
-        for address in addressWithStep:
-            print("Set BP 0x{:0>8X}".format(address))
-            dbg.set_breakpoint(address)
+
+    dbg.enable_commu_sync_time(True)
+    for address in addressNearFuncEntry:
+        print("Set BP 0x{:0>8X}".format(address))
+        dbg.set_breakpoint(address)
 
     print("BP finished\n")
     print("--------------------------------------------\n")

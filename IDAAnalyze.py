@@ -60,3 +60,25 @@ def GenAllAssemblyAddresses():
   
 #DisassembleRange(0x004079C0, 0x004079CC)
 GenAllAssemblyAddresses()
+
+
+def GenAllAssemblyAddressesFormat():  
+    disasmSet = []
+    for function_ea in idautils.Functions():
+        for ins in idautils.FuncItems(function_ea):
+            if idaapi.isCode(idaapi.getFlags(ins)):
+                cmd = idc.GetDisasm(ins)
+                mnem = cmd.split(' ')[0]
+                #print("0x{:0>8X}    {}\n".format(ins, mnem))
+                print("0x{:0>8X}    {}\n".format(ins, cmd))
+                disasmSet += ["0x{:0>8X}    {}\n".format(ins, cmd)]
+        disasmSet += [";-------------------------------------------\n"]
+                
+    with open("C:/DisasmSet", "w", encoding='utf-8') as f:
+        for item in disasmSet:
+            f.write(item)
+    print("DisasmSet writen finished.")
+  
+#DisassembleRange(0x004079C0, 0x004079CC)
+#GenAllAssemblyAddresses()
+GenAllAssemblyAddressesFormat()
