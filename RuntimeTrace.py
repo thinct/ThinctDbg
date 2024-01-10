@@ -33,7 +33,7 @@ gflags.DEFINE_boolean('EnablePrtEBP',         True,  'enable print ebp')
 gflags.DEFINE_boolean('EnablePrtESP',         True,  'enable print esp')
 gflags.DEFINE_boolean('EnableModifyCallAddr', False, 'enable modify the absolute call address')
 gflags.DEFINE_boolean('EnableSnapMode',       False, 'just focus on snippet of code')
-gflags.DEFINE_boolean('EnableFastMode',       False, 'just focus on S and E')
+gflags.DEFINE_boolean('EnableFastMode',       False, 'just focus on range S and E, inner -> stepover, outter -> run')
 
 class StepStatus(Enum):
     StepOver = 0
@@ -68,6 +68,7 @@ def get_ref_and_value(dbg, strStrExp):
     refValue = 0x100000000+refValue if refValue < 0 else refValue
     return refAddr,refValue if (ref1 and ref2) else None
 
+
 if __name__ == "__main__":
     with open('ExternMsg.txt', 'r') as file:
         ExMsg = file.readline().strip().upper()
@@ -86,30 +87,27 @@ if __name__ == "__main__":
     gflags.FLAGS(sys.argv)
 
     while True:
-        FuncStartIP            = gflags.FLAGS.S
-        FuncEndIP              = gflags.FLAGS.E
-        PauseIPs               = gflags.FLAGS.Pause
-        PauseIPOnce            = gflags.FLAGS.PauseOnce
-        StepIns                = gflags.FLAGS.StepIn
-        MustAddrs              = gflags.FLAGS.MustAddr
-        DisasmPart             = gflags.FLAGS.DisasmPart
-        StartInModules         = gflags.FLAGS.StartInModules
-        EndInModules           = gflags.FLAGS.EndInModules
-        EnablePrtEBP           = gflags.FLAGS.EnablePrtEBP
-        EnablePrtESP           = gflags.FLAGS.EnablePrtESP
-        EnableModifyCallAddr   = gflags.FLAGS.EnableModifyCallAddr
-        EnableSnapMode         = gflags.FLAGS.EnableSnapMode
-        EnableFastMode         = gflags.FLAGS.EnableFastMode
-        if FuncStartIP >= FuncEndIP:
-            print("the first is start addr and the second is end addr")
-            exit()
+        FuncStartIP          = gflags.FLAGS.S
+        FuncEndIP            = gflags.FLAGS.E
+        PauseIPs             = gflags.FLAGS.Pause
+        PauseIPOnce          = gflags.FLAGS.PauseOnce
+        StepIns              = gflags.FLAGS.StepIn
+        MustAddrs            = gflags.FLAGS.MustAddr
+        DisasmPart           = gflags.FLAGS.DisasmPart
+        StartInModules       = gflags.FLAGS.StartInModules
+        EndInModules         = gflags.FLAGS.EndInModules
+        EnablePrtEBP         = gflags.FLAGS.EnablePrtEBP
+        EnablePrtESP         = gflags.FLAGS.EnablePrtESP
+        EnableModifyCallAddr = gflags.FLAGS.EnableModifyCallAddr
+        EnableSnapMode       = gflags.FLAGS.EnableSnapMode
+        EnableFastMode       = gflags.FLAGS.EnableFastMode
 
         dbg          = MyDebug()
         connect_flag = dbg.connect()
         print("MyDebug connect status: {}".format(connect_flag))
 
         eip = dbg.get_register("eip")
-        if not EnableSnapMode:
+        if not EnableSnapMode and not EnableFastMode:
             while eip != FuncStartIP:
                 print("0x{:0>8X} : 0x{:0>8X}".format(eip, FuncStartIP))
                 in_key = input("The starting point has not been reached, so click any key to continue...")
@@ -136,7 +134,6 @@ if __name__ == "__main__":
         StartTime         = time.time()
         EipOld            = eip
         RestartScriptFlag = False
-        StepInCounter     = 0
         StepInStack       = []
         HadStepInStatus   = StepStatus.StepOver
 
@@ -169,7 +166,7 @@ if __name__ == "__main__":
                         SnapModeActiving = False
                         break
 
-            if EnableSnapMode and not LastestIPFlag and not SnapModeActiving:
+            if EnableSnapMode and not LastestIPFlag and SnapModeActiving:
                 dbg.enable_commu_sync_time(True)
                 print('.',end='',flush=True)
                 dbg.set_debug("run")
@@ -201,11 +198,11 @@ if __name__ == "__main__":
             if eip == FuncStartIP:
                 PauseConditionTriggeredFlag = True
                 print("Condition Triggered : Arrived FuncStartIP...")
-            if eip == FuncEndIP:
+            elif eip == FuncEndIP:
                 PauseConditionTriggeredFlag = True
                 print("Condition Triggered : Arrived FuncEndIP...")
             if PauseConditionTriggeredFlag: 
-                in_key = input("Press normal key to continue...\n").upper()
+                in_key = input("Press normal key to continue...\n").strip().upper()
                 if in_key == "q".upper() or in_key == "quit".upper():
                     print("==>quit!")
                     StartTime = time.time()
