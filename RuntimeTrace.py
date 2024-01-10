@@ -33,11 +33,13 @@ gflags.DEFINE_boolean('EnablePrtEBP',         True,  'enable print ebp')
 gflags.DEFINE_boolean('EnablePrtESP',         True,  'enable print esp')
 gflags.DEFINE_boolean('EnableModifyCallAddr', False, 'enable modify the absolute call address')
 gflags.DEFINE_boolean('EnableSnapMode',       False, 'just focus on snippet of code')
+gflags.DEFINE_boolean('EnableFastMode',       False, 'just focus on S and E')
 
 class StepStatus(Enum):
     StepOver = 0
     StepIn   = 1
-    StepOut  = 2 
+    StepOut  = 2
+    Run      = 3
 
 # strStrExp like as [ebp-4]
 # Consider only memory reads and writes in square brackets (both direct and indirect addressing)
@@ -97,6 +99,7 @@ if __name__ == "__main__":
         EnablePrtESP           = gflags.FLAGS.EnablePrtESP
         EnableModifyCallAddr   = gflags.FLAGS.EnableModifyCallAddr
         EnableSnapMode         = gflags.FLAGS.EnableSnapMode
+        EnableFastMode         = gflags.FLAGS.EnableFastMode
         if FuncStartIP >= FuncEndIP:
             print("the first is start addr and the second is end addr")
             exit()
@@ -175,6 +178,12 @@ if __name__ == "__main__":
             dbg.enable_commu_sync_time(False)
             eip = dbg.get_register("eip")
             print("-->  IP  0x{:0>8X}".format(eip))
+            
+            if EnableFastMode is True:
+                if eip > FuncStartIP and eip < FuncEndIP:
+                    HadStepInStatus = StepStatus.StepOver
+                else:
+                    HadStepInStatus = StepStatus.Run
 
             if len(StepInStack)>0 and StepInStack[-1] == eip:
                 HadStepInStatus = StepStatus.StepOver
@@ -350,6 +359,9 @@ if __name__ == "__main__":
                 if HadStepInStatus == StepStatus.StepOut:
                     print("HadStepInStatus : Step Out.")
                     dbg.set_debug("StepOut")
+                elif HadStepInStatus == StepStatus.Run:
+                    print("HadStepInStatus : Run.")
+                    dbg.set_debug("run")
                 else:
                     print("HadStepInStatus : Step Into.")
                     dbg.set_debug("StepIn")
