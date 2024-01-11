@@ -85,7 +85,6 @@ if __name__ == "__main__":
 
     # Parse command line arguments
     gflags.FLAGS(sys.argv)
-
     while True:
         FuncStartIP          = gflags.FLAGS.S
         FuncEndIP            = gflags.FLAGS.E
@@ -107,6 +106,7 @@ if __name__ == "__main__":
         print("MyDebug connect status: {}".format(connect_flag))
 
         eip = dbg.get_register("eip")
+
         if not EnableSnapMode and not EnableFastMode:
             while eip != FuncStartIP:
                 print("0x{:0>8X} : 0x{:0>8X}".format(eip, FuncStartIP))
@@ -177,7 +177,7 @@ if __name__ == "__main__":
             print("-->  IP  0x{:0>8X}".format(eip))
             
             if EnableFastMode is True:
-                if eip > FuncStartIP and eip < FuncEndIP:
+                if eip >= FuncStartIP and eip <= FuncEndIP:
                     HadStepInStatus = StepStatus.StepOver
                 else:
                     HadStepInStatus = StepStatus.Run
@@ -235,7 +235,7 @@ if __name__ == "__main__":
             if eip in PauseIPs or (DisasmPart != "" and str(DisasmPart) in disasm):
                 print("pause condition:", disasm, DisasmPart)
                 in_key = input("This is a pause point where you can make changes to the x64dbg...")
-            elif eip in PauseIPOnce:
+            if eip in PauseIPOnce:
                 PauseIPOnce.remove(eip)
                 print(PauseIPOnce)
                 in_key = input("This is a pause point where you can make changes to the x64dbg...")
@@ -267,29 +267,29 @@ if __name__ == "__main__":
                      , "edi":"0x{:0>8X}".format(edi)}        \
                      }
 
-            disasmFlowItem = ""
+            disasmLine = ""
             if MemRefValueGroup is not None:
                 refValueExp = MemRefValueGroup[0]
                 refAndValue = get_ref_and_value(dbg, refValueExp)
                 if (refAndValue is not None):
                     if MemRefValueGroup[1] == refAndValue[0] and MemRefValueGroup[2] != refAndValue[1]:
                         print(";0;{}=[0x{:0>8X}]=0x{:0>8X}\n".format(refValueExp,refAndValue[0],refAndValue[1]))
-                        disasmFlowItem =  ";{}=[0x{:0>8X}]=0x{:0>8X}  <-- Modify\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
-                        MemRefKV       += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
+                        disasmLine =  ";{}=[0x{:0>8X}]=0x{:0>8X}  <-- Modify\n".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                        MemRefKV   += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
                 MemRefValueGroup = None
 
-            disasmFlowItem += "/*0x{:0>8X}*/    {}".format(eip, disasm)
-            print(disasmFlowItem)
+            disasmLine += "/*0x{:0>8X}*/    {}".format(eip, disasm)
+            print(disasmLine)
             if disasm[0] == 'j': # jmp
-                disasmFlowItem = ";" + disasmFlowItem
+                disasmLine = ";" + disasmLine
                 if len(disasm) == 14:
                     if int(str(disasm[4:14]), 16) < eip:
-                        disasmFlowItem += ";GOTO BACK"
+                        disasmLine += ";GOTO BACK"
                 if len(disasm) == 13:
                     if int(str(disasm[3:13]), 16) < eip:
-                        disasmFlowItem += ";GOTO BACK"
+                        disasmLine += ";GOTO BACK"
             elif EnableModifyCallAddr and disasm[0:4] == 'call' and disasm[5:7] == '0x':
-                disasmFlowItem = 'mov eax, ' + disasm[5:15] + '\n' + "/*0x{:0>8X}*/    call eax".format(eip)
+                disasmLine = 'mov eax, ' + disasm[5:15] + '\n' + "/*0x{:0>8X}*/    call eax".format(eip)
             else:
                 '''
                 disasm="lea eax,dword ptr ss:[ebp-4]"
@@ -302,21 +302,21 @@ if __name__ == "__main__":
                     if (refAndValue is not None):
                         #[edi]=[0x5c53c0]=0x888
                         print(";1;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]))
-                        disasmFlowItem   =  disasmFlowItem + "\n;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]) 
+                        disasmLine       =  disasmLine + "\n;{}=[0x{:0>8X}]=0x{:0>8X}".format(refValueExp,refAndValue[0],refAndValue[1]) 
                         MemRefValueGroup =  (refValueExp,refAndValue[0],refAndValue[1])
                         MemRefKV         += [("0x{:0>8X}".format(refAndValue[0]),"0x{:0>8X}".format(refAndValue[1]))]
 
             if EBPOld != ebp and EnablePrtEBP:
-                EBPOld         = ebp
-                disasmFlowItem = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmFlowItem
+                EBPOld     = ebp
+                disasmLine = ";ebp : 0x{:0>8X}\n".format(ebp) + disasmLine
             if ESPOld != esp and EnablePrtESP:
-                ESPOld         = esp
-                disasmFlowItem = ";esp : 0x{:0>8X}\n".format(esp) + disasmFlowItem
+                ESPOld     = esp
+                disasmLine = ";esp : 0x{:0>8X}\n".format(esp) + disasmLine
 
             #print(IPRegs)
-            DisasmFlowDirc[eip]  =  disasmFlowItem
+            DisasmFlowDirc[eip]  =  disasmLine
             regsJson["AddrFlow"] += [IPRegs]
-            DisasmFlow           += disasmFlowItem + "\n"
+            DisasmFlow           += disasmLine + "\n"
             print("currentRIP: 0x{:0>8X} eax: 0x{:0>8X}".format(eip, eax))
 
             dbg.enable_commu_sync_time(True)
