@@ -111,7 +111,7 @@ if __name__ == "__main__":
             while eip != FuncStartIP:
                 print("0x{:0>8X} : 0x{:0>8X}".format(eip, FuncStartIP))
                 in_key = input("The starting point has not been reached, so click any key to continue...")
-                in_key = in_key.upper()
+                in_key = in_key.strip().upper()
                 if in_key == "q".upper() or in_key == "quit".upper():
                     print("quit!")
                     dbg.close()
@@ -363,8 +363,9 @@ if __name__ == "__main__":
                     print("HadStepInStatus : Step Into.")
                     dbg.set_debug("StepIn")
 
+        dbg.close()
         if RestartScriptFlag:
-            dbg.close()
+            
             continue
 
         #print(regsJson)
@@ -410,6 +411,5 @@ if __name__ == "__main__":
             strGVChart = "strict digraph Memory {\n    node [shape=box];\n    rankdir = LR;\n\n" + strMemoryLink + r"}"
             f.write(strGVChart)
 
-        dbg.close()
         print("Finished!")
         exit()
