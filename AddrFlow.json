@@ -1,0 +1,2620 @@
+[
+  {
+    "IP": "0x00401660",
+    "Disasm": "push ebp",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019FA7C",
+      "esp": "0x0019F900",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401661",
+    "Disasm": "mov ebp, esp",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019FA7C",
+      "esp": "0x0019F8FC",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401663",
+    "Disasm": "push 0xFFFFFFFF",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8FC",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401665",
+    "Disasm": "push 0x40553D",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8F8",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040166A",
+    "Disasm": "mov eax, dword ptr fs:[0x00000000]",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8F4",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401670",
+    "Disasm": "push eax",
+    "Regs": {
+      "eax": "0x0019FA70",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8F4",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401671",
+    "Disasm": "sub esp, 0x40",
+    "Regs": {
+      "eax": "0x0019FA70",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8F0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401674",
+    "Disasm": "mov eax, dword ptr ds:[0x00409000]",
+    "Regs": {
+      "eax": "0x0019FA70",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401679",
+    "Disasm": "xor eax, ebp",
+    "Regs": {
+      "eax": "0x-4C41562B",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040167B",
+    "Disasm": "mov dword ptr ss:[ebp-0x14], eax",
+    "Regs": {
+      "eax": "0x-4C58AED7",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040167E",
+    "Disasm": "push ebx",
+    "Regs": {
+      "eax": "0x-4C58AED7",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040167F",
+    "Disasm": "push esi",
+    "Regs": {
+      "eax": "0x-4C58AED7",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8AC",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401680",
+    "Disasm": "push edi",
+    "Regs": {
+      "eax": "0x-4C58AED7",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A8",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401681",
+    "Disasm": "push eax",
+    "Regs": {
+      "eax": "0x-4C58AED7",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A4",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401682",
+    "Disasm": "lea eax, ss:[ebp-0xC]",
+    "Regs": {
+      "eax": "0x-4C58AED7",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401685",
+    "Disasm": "mov dword ptr fs:[0x00000000], eax",
+    "Regs": {
+      "eax": "0x0019F8F0",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040168B",
+    "Disasm": "mov dword ptr ss:[ebp-0x10], esp",
+    "Regs": {
+      "eax": "0x0019F8F0",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040168E",
+    "Disasm": "mov esi, ecx",
+    "Regs": {
+      "eax": "0x0019F8F0",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401690",
+    "Disasm": "mov dword ptr ss:[ebp-0x24], esi",
+    "Regs": {
+      "eax": "0x0019F8F0",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401693",
+    "Disasm": "mov ecx, dword ptr ss:[ebp+0x8]",
+    "Regs": {
+      "eax": "0x0019F8F0",
+      "ecx": "0x08A5A8E8",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401696",
+    "Disasm": "mov eax, dword ptr ss:[ebp+0xC]",
+    "Regs": {
+      "eax": "0x0019F8F0",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401699",
+    "Disasm": "mov edi, dword ptr ds:[esi]",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040169B",
+    "Disasm": "mov dword ptr ss:[ebp-0x2C], eax",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040169E",
+    "Disasm": "mov eax, 0xE6C2B449",
+    "Regs": {
+      "eax": "0x0019F950",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016A3",
+    "Disasm": "mov dword ptr ss:[ebp-0x30], ecx",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016A6",
+    "Disasm": "sub ecx, edi",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016A8",
+    "Disasm": "imul ecx",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x0000011C",
+      "edx": "0x00000006",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016AA",
+    "Disasm": "add edx, ecx",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000-1C",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016AC",
+    "Disasm": "mov ecx, dword ptr ds:[esi+0x4]",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000100",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016AF",
+    "Disasm": "sar edx, 0x8",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000100",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016B2",
+    "Disasm": "sub ecx, edi",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016B4",
+    "Disasm": "mov eax, edx",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016B6",
+    "Disasm": "shr eax, 0x1F",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016B9",
+    "Disasm": "add eax, edx",
+    "Regs": {
+      "eax": "0x00000000",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016BB",
+    "Disasm": "mov dword ptr ss:[ebp-0x28], eax",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016BE",
+    "Disasm": "mov eax, 0xE6C2B449",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016C3",
+    "Disasm": "imul ecx",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016C5",
+    "Disasm": "add edx, ecx",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000-1C",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016C7",
+    "Disasm": "sar edx, 0x8",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000100",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016CA",
+    "Disasm": "mov eax, edx",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016CC",
+    "Disasm": "shr eax, 0x1F",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016CF",
+    "Disasm": "add eax, edx",
+    "Regs": {
+      "eax": "0x00000000",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016D1",
+    "Disasm": "cmp eax, 0xE6C2B4",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016D6",
+    "Disasm": "je 0x00401981",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016DC",
+    "Disasm": "mov ecx, dword ptr ds:[esi+0x8]",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016DF",
+    "Disasm": "lea ebx, ds:[eax+0x1]",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000001",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016E2",
+    "Disasm": "sub ecx, edi",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016E4",
+    "Disasm": "mov dword ptr ss:[ebp-0x40], ebx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016E7",
+    "Disasm": "mov eax, 0xE6C2B449",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016EC",
+    "Disasm": "imul ecx",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016EE",
+    "Disasm": "mov eax, 0xE6C2B4",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000-1C",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016F3",
+    "Disasm": "add edx, ecx",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x0000011C",
+      "edx": "0x00000-1C",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016F5",
+    "Disasm": "sar edx, 0x8",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x0000011C",
+      "edx": "0x00000100",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016F8",
+    "Disasm": "mov ecx, edx",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016FA",
+    "Disasm": "shr ecx, 0x1F",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016FD",
+    "Disasm": "add ecx, edx",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000000",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004016FF",
+    "Disasm": "mov edx, ecx",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401701",
+    "Disasm": "shr edx, 0x1",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000001",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401703",
+    "Disasm": "sub eax, edx",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401705",
+    "Disasm": "cmp ecx, eax",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401707",
+    "Disasm": "jbe 0x0040171D",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040171D",
+    "Disasm": "lea eax, ds:[edx+ecx*1]",
+    "Regs": {
+      "eax": "0x00E6C2B4",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401720",
+    "Disasm": "mov esi, ebx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A5A8E8",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401722",
+    "Disasm": "cmp eax, ebx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401724",
+    "Disasm": "cmovae esi, eax",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401727",
+    "Disasm": "cmp esi, 0xE6C2B4",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040172D",
+    "Disasm": "ja 0x0040197C",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401733",
+    "Disasm": "imul ebx, esi, 0x11C",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000002",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401739",
+    "Disasm": "mov dword ptr ss:[ebp-0x34], esi",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040173C",
+    "Disasm": "mov dword ptr ss:[ebp-0x3C], ebx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040173F",
+    "Disasm": "cmp ebx, 0x1000",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401745",
+    "Disasm": "jb 0x0040176E",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040176E",
+    "Disasm": "test ebx, ebx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401770",
+    "Disasm": "je 0x00401785",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401772",
+    "Disasm": "push ebx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401773",
+    "Disasm": "call 0x0040474B",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000001",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401778",
+    "Disasm": "add esp, 0x4",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040177B",
+    "Disasm": "mov dword ptr ss:[ebp-0x38], eax",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040177E",
+    "Disasm": "mov ebx, eax",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x00000238",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401780",
+    "Disasm": "mov dword ptr ss:[ebp-0x34], esi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401783",
+    "Disasm": "jmp 0x0040178D",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040178D",
+    "Disasm": "imul esi, dword ptr ss:[ebp-0x28], 0x11C",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x00000002",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401794",
+    "Disasm": "push dword ptr ss:[ebp-0x2C]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x0000011C",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x00401797",
+    "Disasm": "mov dword ptr ss:[ebp-0x4C], ebx",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x0000011C",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x0040179A",
+    "Disasm": "mov dword ptr ss:[ebp-0x4], 0x0",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x0000011C",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004017A1",
+    "Disasm": "add esi, ebx",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x0000011C",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004017A3",
+    "Disasm": "mov ecx, esi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x00000238",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A76204",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004017A5",
+    "Disasm": "mov dword ptr ss:[ebp-0x44], esi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A76204",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A76204",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004017A8",
+    "Disasm": "lea edi, ds:[esi+0x11C]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A76204",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A76204",
+      "edi": "0x08A87DD8"
+    }
+  },
+  {
+    "IP": "0x004017AE",
+    "Disasm": "mov dword ptr ss:[ebp-0x48], edi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A76204",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017B1",
+    "Disasm": "mov dword ptr ss:[ebp-0x28], edi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A76204",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017B4",
+    "Disasm": "call dword ptr ds:[0x00406160]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A76204",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017BA",
+    "Disasm": "mov edx, dword ptr ss:[ebp-0x24]",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76204",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017BD",
+    "Disasm": "xorps xmm0, xmm0",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76204",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017C0",
+    "Disasm": "mov eax, dword ptr ss:[ebp-0x30]",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76204",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017C3",
+    "Disasm": "mov dword ptr ds:[esi], 0x4062C4",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A76204",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017C9",
+    "Disasm": "mov dword ptr ds:[esi+0x4], 0x4062EC",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A76204",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017D0",
+    "Disasm": "mov ecx, dword ptr ds:[edx+0x4]",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A76204",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017D3",
+    "Disasm": "mov dword ptr ss:[ebp-0x28], esi",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017D6",
+    "Disasm": "mov esi, dword ptr ds:[edx]",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A76204",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017D8",
+    "Disasm": "mov dword ptr ss:[ebp-0x18], 0x0",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017DF",
+    "Disasm": "movq qword ptr ss:[ebp-0x20], xmm0",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017E4",
+    "Disasm": "mov dword ptr ss:[ebp-0x2C], ecx",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017E7",
+    "Disasm": "mov dword ptr ss:[ebp-0x18], edx",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017EA",
+    "Disasm": "mov dword ptr ss:[ebp-0x20], ebx",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017ED",
+    "Disasm": "cmp eax, ecx",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017EF",
+    "Disasm": "jne 0x00401832",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017F1",
+    "Disasm": "mov edi, ebx",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76320"
+    }
+  },
+  {
+    "IP": "0x004017F3",
+    "Disasm": "mov dword ptr ss:[ebp-0x1C], edi",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x004017F6",
+    "Disasm": "mov byte ptr ss:[ebp-0x4], 0x1",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x004017FA",
+    "Disasm": "nop word ptr ds:[eax+eax*1], ax",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401800",
+    "Disasm": "cmp esi, ecx",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401802",
+    "Disasm": "je 0x004018D3",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401808",
+    "Disasm": "push esi",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401809",
+    "Disasm": "mov ecx, edi",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x0040180B",
+    "Disasm": "call dword ptr ds:[0x00406160]",
+    "Regs": {
+      "eax": "0x08A87EF4",
+      "ecx": "0x08A760E8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401811",
+    "Disasm": "mov ecx, dword ptr ss:[ebp-0x2C]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A760E8",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401814",
+    "Disasm": "mov dword ptr ds:[edi], 0x4062C4",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x0040181A",
+    "Disasm": "mov dword ptr ds:[edi+0x4], 0x4062EC",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401821",
+    "Disasm": "add edi, 0x11C",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A760E8"
+    }
+  },
+  {
+    "IP": "0x00401827",
+    "Disasm": "mov dword ptr ss:[ebp-0x1C], edi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x0040182A",
+    "Disasm": "add esi, 0x11C",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x00401830",
+    "Disasm": "jmp 0x00401800",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x004018D3",
+    "Disasm": "mov edx, dword ptr ss:[ebp-0x24]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x00000000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x004018D6",
+    "Disasm": "mov esi, dword ptr ds:[edx]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x004018D8",
+    "Disasm": "test esi, esi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x004018DA",
+    "Disasm": "je 0x0040193F",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x004018DC",
+    "Disasm": "mov edi, dword ptr ds:[edx+0x4]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A76204"
+    }
+  },
+  {
+    "IP": "0x004018DF",
+    "Disasm": "cmp esi, edi",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018E1",
+    "Disasm": "je 0x004018F8",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018E3",
+    "Disasm": "mov eax, dword ptr ds:[esi]",
+    "Regs": {
+      "eax": "0x08A760E8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018E5",
+    "Disasm": "mov ecx, esi",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018E7",
+    "Disasm": "push 0x0",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018E9",
+    "Disasm": "call dword ptr ds:[eax]",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B40",
+    "Disasm": "push ebp",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F898",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B41",
+    "Disasm": "mov ebp, esp",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F894",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B43",
+    "Disasm": "push esi",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F894",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B44",
+    "Disasm": "mov esi, ecx",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F890",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B46",
+    "Disasm": "call dword ptr ds:[0x0040615C]",
+    "Regs": {
+      "eax": "0x004062C4",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F890",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B4C",
+    "Disasm": "test byte ptr ss:[ebp+0x8], 0x1",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F890",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B50",
+    "Disasm": "je 0x00401B60",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F890",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B60",
+    "Disasm": "mov eax, esi",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F890",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B62",
+    "Disasm": "pop esi",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F890",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B63",
+    "Disasm": "pop ebp",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F894",
+      "esp": "0x0019F894",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401B64",
+    "Disasm": "ret 0x4",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F898",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018EB",
+    "Disasm": "add esi, 0x11C",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018F1",
+    "Disasm": "cmp esi, edi",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018F3",
+    "Disasm": "jne 0x004018E3",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018F5",
+    "Disasm": "mov edx, dword ptr ss:[ebp-0x24]",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018F8",
+    "Disasm": "mov ecx, dword ptr ds:[edx+0x8]",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87DDC",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x004018FB",
+    "Disasm": "mov eax, 0xE6C2B449",
+    "Regs": {
+      "eax": "0x08A87DD8",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401900",
+    "Disasm": "mov esi, dword ptr ds:[edx]",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401902",
+    "Disasm": "sub ecx, esi",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x08A87EF4",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401904",
+    "Disasm": "imul ecx",
+    "Regs": {
+      "eax": "0x-193D4BB7",
+      "ecx": "0x0000011C",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401906",
+    "Disasm": "add edx, ecx",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000-1C",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401908",
+    "Disasm": "sar edx, 0x8",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000100",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040190B",
+    "Disasm": "mov eax, edx",
+    "Regs": {
+      "eax": "0x000000FC",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040190D",
+    "Disasm": "shr eax, 0x1F",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401910",
+    "Disasm": "add eax, edx",
+    "Regs": {
+      "eax": "0x00000000",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401912",
+    "Disasm": "imul ecx, eax, 0x11C",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401918",
+    "Disasm": "cmp ecx, 0x1000",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040191E",
+    "Disasm": "jb 0x00401932",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401932",
+    "Disasm": "push ecx",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401933",
+    "Disasm": "push esi",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F89C",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401934",
+    "Disasm": "call 0x0040477B",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x0000011C",
+      "edx": "0x00000001",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F898",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401939",
+    "Disasm": "mov edx, dword ptr ss:[ebp-0x24]",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87DD8",
+      "edx": "0x00720000",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F898",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040193C",
+    "Disasm": "add esp, 0x8",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F898",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040193F",
+    "Disasm": "imul ecx, dword ptr ss:[ebp-0x40], 0x11C",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x08A87DD8",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401946",
+    "Disasm": "mov eax, dword ptr ss:[ebp-0x44]",
+    "Regs": {
+      "eax": "0x00000001",
+      "ecx": "0x00000238",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401949",
+    "Disasm": "mov dword ptr ds:[edx], ebx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x00000238",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040194B",
+    "Disasm": "add ecx, ebx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x00000238",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040194D",
+    "Disasm": "mov dword ptr ds:[edx+0x4], ecx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76320",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401950",
+    "Disasm": "mov ecx, dword ptr ss:[ebp-0x3C]",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76320",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401953",
+    "Disasm": "add ecx, ebx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x00000238",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401955",
+    "Disasm": "mov dword ptr ds:[edx+0x8], ecx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76320",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401958",
+    "Disasm": "mov ecx, dword ptr ss:[ebp-0xC]",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x08A76320",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x0040195B",
+    "Disasm": "mov dword ptr fs:[0x00000000], ecx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x0019FA70",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401962",
+    "Disasm": "pop ecx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x0019FA70",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A0",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401963",
+    "Disasm": "pop edi",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C58AED7",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A4",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A87EF4"
+    }
+  },
+  {
+    "IP": "0x00401964",
+    "Disasm": "pop esi",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C58AED7",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8A8",
+      "esi": "0x08A87DD8",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401965",
+    "Disasm": "pop ebx",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C58AED7",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x08A760E8",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8AC",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401966",
+    "Disasm": "mov ecx, dword ptr ss:[ebp-0x14]",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C58AED7",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401969",
+    "Disasm": "xor ecx, ebp",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C58AED7",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x0040196B",
+    "Disasm": "call 0x0040473D",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C41562B",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401970",
+    "Disasm": "mov esp, ebp",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C41562B",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8B0",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401972",
+    "Disasm": "pop ebp",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C41562B",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019F8FC",
+      "esp": "0x0019F8FC",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  },
+  {
+    "IP": "0x00401973",
+    "Disasm": "ret 0x8",
+    "Regs": {
+      "eax": "0x08A76204",
+      "ecx": "0x-4C41562B",
+      "edx": "0x08A5A8E8",
+      "ebx": "0x52E26270",
+      "ebp": "0x0019FA7C",
+      "esp": "0x0019F900",
+      "esi": "0x08A87EF4",
+      "edi": "0x08A5A8E8"
+    }
+  }
+]
