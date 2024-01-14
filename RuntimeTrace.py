@@ -10,6 +10,8 @@ from LyScript32 import MyDebug
 # .\RuntimeTrace.py --S 0x01071AD0 --E 0x01071BC1 --StartInModules 0x01060000 --EndInModules 0x01076FF2
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP
 # .\RuntimeTrace.py --S 0x004011A0 --E 0x004012ED --StartInModules 0x00400000 --EndInModules 0x00402FFF --noEnablePrtESP --ModifyCallAddr
+# .\RuntimeTrace.py --S 0x00403650 --E 0x00403B37 --EnableFastMode --EnableSnapMode
+# .\RuntimeTrace.py --S 0x00403650 --E 0x00403B37 --EnableFastMode --EnableSnapMode
 
 # convert to value  : addr_0x0{3,7}([1-9A-F]*\w*) --> value_0x$1
 # convert to stack  : addr_(0x0019F\w+) --> stack_$1
@@ -121,21 +123,22 @@ if __name__ == "__main__":
                 eip = dbg.get_register("eip")
                 dbg.delete_breakpoint(FuncStartIP)
 
-        regsJson          = {"AddrFlow":[]}
-        DisasmFlow        = ""
-        DisasmFlowDirc    = {}
-        EIPSet            = []
-        EIPGoToSet        = []
-        LastestIPFlag     = False
-        EBPOld            = 0
-        ESPOld            = 0
-        MemRefValueGroup  = None
-        MemRefKV          = []
-        StartTime         = time.time()
-        EipOld            = eip
-        RestartScriptFlag = False
-        StepInStack       = []
-        HadStepInStatus   = StepStatus.StepOver
+        regsJson           = {"AddrFlow":[]}
+        DisasmFlow         = ""
+        DisasmFlowDirc     = {}
+        EIPSet             = []
+        EIPGoToSet         = []
+        LastestIPFlag      = False
+        EBPOld             = 0
+        ESPOld             = 0
+        MemRefValueGroup   = None
+        MemRefKV           = []
+        StartTime          = time.time()
+        EipOld             = eip
+        RestartScriptFlag  = False
+        StepInStack        = []
+        HadStepInStatus    = StepStatus.StepOver
+        SnapSwitchFlag     = False
 
         if len(StepIns)>0 and len(MustAddrs) == 0:
             MustAddrs = [FuncEndIP]
@@ -158,19 +161,24 @@ if __name__ == "__main__":
                         LastestIPFlag = True
                         break
                     elif ExMsg == "SnapStart".upper():
-                        RestartScriptFlag = True # it as same as restart
-                        SnapModeActiving  = True
-                        break
-                    elif ExMsg == "SnapEnd".upper(): 
-                        LastestIPFlag    = True # it as same as over
+                        SnapSwitchFlag   = True
                         SnapModeActiving = False
-                        break
+                    elif ExMsg == "SnapEnd".upper(): 
+                        SnapSwitchFlag   = False
+                        SnapModeActiving = False
 
-            if EnableSnapMode and not LastestIPFlag and SnapModeActiving:
-                dbg.enable_commu_sync_time(True)
-                print('.',end='',flush=True)
-                dbg.set_debug("run")
-                continue
+            if EnableSnapMode and not SnapModeActiving:
+                if SnapSwitchFlag is False:
+                    dbg.enable_commu_sync_time(True)
+                    print('.',end='',flush=True)
+                    dbg.set_debug("run")
+                    continue
+                else:
+                    RestartScriptFlag = True
+                    SnapModeActiving  = True
+                    input("snap start and restart...")
+                    break
+
 
             dbg.enable_commu_sync_time(False)
             eip = dbg.get_register("eip")
@@ -331,6 +339,9 @@ if __name__ == "__main__":
                 HadStepInStatus = StepStatus.StepOver
                 dbg.set_debug("StepOver")
                 continue
+            elif HadStepInStatus == StepStatus.Run:
+                dbg.set_debug("run")
+                continue
 
             HadStepInStatus = StepStatus.StepOver
 
@@ -365,7 +376,6 @@ if __name__ == "__main__":
 
         dbg.close()
         if RestartScriptFlag:
-            
             continue
 
         #print(regsJson)
