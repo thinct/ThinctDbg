@@ -1,0 +1,100 @@
+int main(int argc, char* argv[])
+{
+00221040 55                   push        ebp 
+00221041 8B EC                mov         ebp,esp 
+00221043 56                   push        esi 
+    printf("argc/16 = %u\n", (unsigned)argc / 16); // 除数为无符号2的幂
+00221044 8B 75 08             mov         esi,dword ptr [argc] 
+00221047 8B C6                mov         eax,esi 
+00221049 C1 E8 04             shr         eax,4 
+0022104C 50                   push        eax 
+0022104D 68 00 21 22 00       push        offset string "argc/16 = %u\n" (0222100h) 
+00221052 E8 B9 FF FF FF       call        printf (0221010h) 
+    printf("argc/3  = %u\n", (unsigned)argc / 3);  // 除数为无符号非2的幂（上）
+00221057 B8 AB AA AA AA       mov         eax,0AAAAAAABh 
+0022105C F7 E6                mul         eax,esi 
+0022105E D1 EA                shr         edx,1 
+00221060 52                   push        edx 
+00221061 68 10 21 22 00       push        offset string "argc/3  = %u\n" (0222110h) 
+00221066 E8 A5 FF FF FF       call        printf (0221010h) 
+    printf("argc/7  = %u\n", (unsigned)argc / 7);  // 除数为无符号非2的幂（下）
+0022106B B8 25 49 92 24       mov         eax,24924925h 
+00221070 F7 E6                mul         eax,esi 
+00221072 8B C6                mov         eax,esi 
+00221074 2B C2                sub         eax,edx 
+00221076 D1 E8                shr         eax,1 
+00221078 03 C2                add         eax,edx 
+0022107A C1 E8 02             shr         eax,2 
+0022107D 50                   push        eax 
+0022107E 68 20 21 22 00       push        offset string "argc/7  = %u\n" (0222120h) 
+00221083 E8 88 FF FF FF       call        printf (0221010h) 
+    printf("argc/8  = %d\n", argc / 8);            // 除数为有符号2的幂
+00221088 8B C6                mov         eax,esi 
+0022108A 99                   cdq 
+0022108B 83 E2 07             and         edx,7 
+0022108E 03 C2                add         eax,edx 
+00221090 C1 F8 03             sar         eax,3 
+00221093 50                   push        eax 
+00221094 68 30 21 22 00       push        offset string "argc/8  = %d\n" (0222130h) 
+00221099 E8 72 FF FF FF       call        printf (0221010h) 
+    printf("argc/9  = %d\n", argc / 9);            // 除数为有符号非2的幂（上）
+0022109E B8 39 8E E3 38       mov         eax,38E38E39h 
+002210A3 F7 EE                imul        esi 
+002210A5 D1 FA                sar         edx,1 
+002210A7 8B C2                mov         eax,edx 
+002210A9 C1 E8 1F             shr         eax,1Fh 
+002210AC 03 C2                add         eax,edx 
+002210AE 50                   push        eax 
+002210AF 68 40 21 22 00       push        offset string "argc/9  = %d\n" (0222140h) 
+002210B4 E8 57 FF FF FF       call        printf (0221010h) 
+    printf("argc/7  = %d\n", argc / 7);            // 除数为有符号非2的幂（下）
+002210B9 B8 93 24 49 92       mov         eax,92492493h 
+002210BE F7 EE                imul        esi 
+002210C0 03 D6                add         edx,esi 
+002210C2 C1 FA 02             sar         edx,2 
+002210C5 8B C2                mov         eax,edx 
+002210C7 C1 E8 1F             shr         eax,1Fh 
+002210CA 03 C2                add         eax,edx 
+002210CC 50                   push        eax 
+002210CD 68 50 21 22 00       push        offset string "argc/7  = %d\n" (0222150h) 
+002210D2 E8 39 FF FF FF       call        printf (0221010h) 
+    printf("argc/-4 = %d\n", argc / -4);           // 除数为有符号负2的幂
+002210D7 8B C6                mov         eax,esi 
+002210D9 99                   cdq 
+002210DA 83 E2 03             and         edx,3 
+002210DD 03 C2                add         eax,edx 
+002210DF C1 F8 02             sar         eax,2 
+002210E2 F7 D8                neg         eax 
+002210E4 50                   push        eax 
+002210E5 68 60 21 22 00       push        offset string "argc/-4 = %d\n" (0222160h) 
+002210EA E8 21 FF FF FF       call        printf (0221010h) 
+    printf("argc/-5 = %d\n", argc / -5);           // 除数为有符号负非2的幂（上）
+002210EF B8 99 99 99 99       mov         eax,99999999h 
+002210F4 F7 EE                imul        esi 
+002210F6 D1 FA                sar         edx,1 
+002210F8 8B C2                mov         eax,edx 
+002210FA C1 E8 1F             shr         eax,1Fh 
+002210FD 03 C2                add         eax,edx 
+002210FF 50                   push        eax 
+00221100 68 70 21 22 00       push        offset string "argc/-5 = %d\n" (0222170h) 
+00221105 E8 06 FF FF FF       call        printf (0221010h) 
+    printf("argc/-7 = %d\n", argc / -7);           // 除数为有符号负非2的幂（下）
+0022110A B8 6D DB B6 6D       mov         eax,6DB6DB6Dh 
+0022110F 83 C4 40             add         esp,40h 
+00221112 F7 EE                imul        esi 
+00221114 2B D6                sub         edx,esi 
+00221116 C1 FA 02             sar         edx,2 
+00221119 8B C2                mov         eax,edx 
+0022111B C1 E8 1F             shr         eax,1Fh 
+0022111E 03 C2                add         eax,edx 
+00221120 50                   push        eax 
+00221121 68 80 21 22 00       push        offset string "argc/-7 = %d\n" (0222180h) 
+00221126 E8 E5 FE FF FF       call        printf (0221010h) 
+0022112B 83 C4 08             add         esp,8 
+ 
+    return 0;
+0022112E 33 C0                xor         eax,eax 
+00221130 5E                   pop         esi 
+}
+00221131 5D                   pop         ebp 
+00221132 C3                   ret

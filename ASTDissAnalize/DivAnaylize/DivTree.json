@@ -1,0 +1,40 @@
+"div":{
+	"Left":{
+		"shr":{
+			"Left":{
+				"add":{
+					"Left":{
+						"shr":{
+							"Left":"End"
+						}
+					},
+					"Right":{
+						
+					}
+				}
+			},
+			"Right":{
+				
+			},
+			"Reverse":{
+				"Left":{
+					"sub":{
+						"Left":{
+							"mov":{
+								"Left":{
+									"mul":{
+										"Left":{
+											"mov":{
+												"Left":"Start"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}},
+	"Right":"End"
+}
